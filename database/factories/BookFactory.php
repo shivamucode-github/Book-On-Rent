@@ -2,6 +2,9 @@
 
 namespace Database\Factories;
 
+use App\Models\Author;
+use App\Models\Category;
+use Exception;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -16,13 +19,18 @@ class BookFactory extends Factory
      */
     public function definition(): array
     {
-        return [
-            'name' => fake()->lastName(2),
-            'slug' => fake()->slug(1),
-            'category_id' => null,
-            'author_id' => null,
-            'thumbnail' => null,
-            'price' => fake()->randomDigit()
-        ];
+        try{
+            return [
+                'name' => fake()->lastName(2),
+                'slug' => fake()->slug(1),
+                'category_id' => Category::all()->pluck('id')->random(),
+                'author_id' => Author::all()->pluck('id')->random(),
+                'thumbnail' => null,
+                'price' => fake()->randomDigit()
+            ];
+        }catch(Exception $e){
+            return "Please Add Author and Category first";
+        }
+
     }
 }

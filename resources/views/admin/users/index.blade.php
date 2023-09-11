@@ -9,7 +9,12 @@
         <div class=" max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="border-b-2 px-4 flex items-center justify-between">
                 <h1 colspan="7" class="py-3 text-2xl">All Users</h1>
-                <div @if($errors->any()) x-data="{ open: true }" @else x-data="{ open: false }" @endif>
+                <div class="flex items-center gap-4" @if ($errors->any()) x-data="{ open: true }" @else x-data="{ open: false }" @endif>
+                    <form action="#" method="get">
+                        <input
+                            class="search outline-none border-2 border-gray-300 rounded-md placeholder:text-gray-400 px-4"
+                            type="search" id="" placeholder="Search here" name="search" >
+                    </form>
                     <button x-on:click="open = ! open" class="bg-blue-500 px-6 py-2 rounded-md text-white">Add
                         user</button>
                     <div x-show="open"
@@ -86,7 +91,7 @@
                 </div>
             </div>
         </div>
-        <div class="h-full bg-white overflow-y-hidden shadow-sm sm:rounded-lg p-4 py-10">
+        <div class="h-full bg-white shadow-sm sm:rounded-lg p-4 py-10">
             <table class="min-w-full">
                 <thead class="bg-gray-300">
                     <tr>
@@ -133,15 +138,6 @@
                             </td>
                             <td x-data="{ open: false }"
                                 class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap flex items-center justify-center gap-3">
-                                <a href="/user/{{ $user->slug }}" class="text-green-300">
-                                    <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" width="16"
-                                        height="16" fill="currentColor" viewBox="0 0 16 16">
-                                        <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"></path>
-                                        <path
-                                            d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z">
-                                        </path>
-                                    </svg>
-                                </a>
                                 <a href="/admin/user/{{ $user->slug }}/edit" class="text-blue-600">
                                     <svg class="w-6 h-6" fill="currentColor" xmlns="http://www.w3.org/2000/svg"
                                         viewBox="0 0 576 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) -->
@@ -188,7 +184,7 @@
         </div>
     </div>
     </div>
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+    {{-- <script src="https://code.jquery.com/jquery-3.7.1.min.js"
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script>
         $(document).ready(function() {
@@ -224,5 +220,5 @@
                 // });
             });
         });
-    </script>
+    </script> --}}
 </x-app-layout>

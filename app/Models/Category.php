@@ -23,4 +23,24 @@ class Category extends Model
             ]
         ];
     }
+
+    // Relations
+    public function books()
+    {
+        return $this->hasMany(Book::class);
+    }
+
+    // Filters
+    public function scopeFilter($query, array $filters)
+    {
+        $query->when(
+            $filters['search'] ?? false,
+            fn ($query, $search) =>
+            $query->where(
+                fn ($query) =>
+                $query->where('name', 'LIKE', '%' . $search . '%')
+                    ->orwhere('slug', 'LIKE', '%' . $search . '%')
+            )
+        );
+    }
 }

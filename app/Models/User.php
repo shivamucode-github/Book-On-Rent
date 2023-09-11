@@ -6,13 +6,14 @@ namespace App\Models;
 
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable,Sluggable;
+    use HasApiTokens, HasFactory, Notifiable, Sluggable;
 
     /**
      * The attributes that are mass assignable.
@@ -56,5 +57,27 @@ class User extends Authenticatable
                 'source' => 'name'
             ]
         ];
+    }
+
+    public function books()
+    {
+        return $this->hasMany(Book::class);
+    }
+
+    // Filters
+    public function scopeFilter($query, array $filters)
+    {
+        $query->when(
+            $filters['search'] ?? false,
+            fn ($query, $search) =>
+            $query->where(
+                fn ($query) =>
+                $query->where('name', 'LIKE', '%' . $search . '%')
+                    ->orwhere('slug', 'LIKE', '%' . $search . '%')
+                    ->orwhere('email', 'LIKE', '%' . $search . '%')
+                    ->orwhere('phone', 'LIKE', '%' . $search . '%')
+                    ->orwhere('address', 'LIKE', '%' . $search . '%')
+            )
+        );
     }
 }

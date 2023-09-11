@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Author extends Model
 {
-    use HasFactory,Sluggable;
+    use HasFactory, Sluggable;
 
     protected $fillable = [
         'name',
@@ -22,5 +22,23 @@ class Author extends Model
                 'source' => 'name'
             ]
         ];
+    }
+
+    public function books()
+    {
+        return $this->hasMany(Book::class);
+    }
+
+    public function scopeFilter($query, array $filters)
+    {
+        $query->when(
+            $filters['search'] ?? false,
+            fn ($query, $search) =>
+            $query->where(
+                fn ($query) =>
+                $query->where('name', 'LIKE', '%' . $search . '%')
+                    ->orwhere('slug', 'LIKE', '%' . $search . '%')
+            )
+        );
     }
 }

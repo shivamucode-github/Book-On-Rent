@@ -9,80 +9,9 @@
         <div class=" max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="border-b-2 px-4 flex items-center justify-between">
                 <h1 colspan="7" class="py-3 text-2xl">All Orders</h1>
-                <div @if ($errors->any()) x-data="{ open: true }" @else x-data="{ open: false }" @endif>
-                    <button x-on:click="open = ! open" class="bg-blue-500 px-6 py-2 rounded-md text-white">Add
-                        Order</button>
-                    <div x-show="open"
-                        class="fixed overflow-auto py-6 inset-0 bg-black/60 flex items-center justify-center z-30">
-                        <div
-                            class="bg-white w-1/3 mt-6 px-6 py-3 flex flex-col items-center justify-center gap-8 rounded-lg">
-                            <h2 class="block text-4xl font-semibold">Add Order</h2>
-                            <form method="POST" action="{{ route('createBook') }}" class="w-full">
-                                @csrf
-
-                                <!-- Name -->
-                                <div>
-                                    <x-input-label for="name" :value="__('Name')" />
-                                    <x-text-input id="name" class="block mt-1 w-full" type="text" name="name"
-                                        :value="old('name')" required autofocus autocomplete="name" />
-                                    <x-input-error :messages="$errors->get('name')" class="mt-2" />
-                                </div>
-
-                                <!-- Price -->
-                                <div class="mt-4">
-                                    <x-input-label for="price" :value="__('Price')" />
-                                    <x-text-input id="price" class="block mt-1 w-full" type="number" name="price"
-                                        :value="old('price')" required autocomplete="price" />
-                                    <x-input-error :messages="$errors->get('email')" class="mt-2" />
-                                </div>
-
-                                {{-- Category --}}
-                                <div class="mt-4">
-                                    <x-input-label for="category" :value="__('Category')" />
-                                    <select name="category" id="category" class="py-2 px-3 w-full rounded-md bg-gray-100 border-gray-300">
-                                        <option value="" selected disabled>Select One</option>
-                                        @foreach ($users as $user)
-                                        <option value="{{ $user->id }}">{{ $user->name }}</option>
-                                        @endforeach
-                                    </select>
-                                    <x-input-error :messages="$errors->get('category')" class="mt-2" />
-                                </div>
-
-                                {{-- Author --}}
-                                <div class="mt-4">
-                                    <x-input-label for="author" :value="__('Author')" />
-                                    <select name="author" id="author" class="py-2 px-3 w-full rounded-md bg-gray-100 border-gray-300">
-                                        <option value="" selected disabled>Select One</option>
-                                        @foreach ($books as $book)
-                                        <option value="{{ $book->id }}">{{ $book->name }}</option>
-                                        @endforeach
-                                    </select>
-                                    <x-input-error :messages="$errors->get('author')" class="mt-2" />
-                                </div>
-
-                                <!-- Thumbnail -->
-                                <div class="mt-4">
-                                    <x-input-label for="thumbnail" :value="__('Thumbnail (Cover Photo)')" />
-
-                                    <x-text-input id="thumbnail" class="block mt-1 w-full" type="file"
-                                        name="thumbnail" autocomplete="thumbnail" />
-
-                                    <x-input-error :messages="$errors->get('thumbnail')" class="mt-2" />
-                                </div>
-
-                                <div class="flex items-center justify-end mt-4 gap-6">
-                                    <x-primary-button class="ml-4">
-                                        {{ __('Add') }}
-                                    </x-primary-button>
-                                    <x-danger-button x-on:click="open = ! open">{{ __('Cancel') }}</x-danger-button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
-        <div class="h-full bg-white overflow-y-hidden shadow-sm sm:rounded-lg p-4">
+        <div class="h-full bg-white shadow-sm sm:rounded-lg p-4">
             <table class="min-w-full">
                 <thead class="bg-gray-300">
                     <tr>
@@ -115,33 +44,22 @@
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                                 {{ $order->id }}</td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                                {{ ucwords($order->name) }}</td>
+                                {{ ucwords($order->user->name) }}</td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                                {{ $order->slug }}</td>
+                                {{ $order->book->name }}</td>
                             <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                {{ ucwords($order->thumbnail) }}
+                                {{ 'Rs '.ucwords($order->price) }}
                             </td>
                             <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                {{ ucwords($order->price) }}
+                                {{ ucwords($order->quantity) }}
                             </td>
                             <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                {{ ucwords($order->author_id) }}
-                            </td>
-                            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                {{ ucwords($order->category_id) }}
+                                {{ ucwords($order->days) }}
                             </td>
                             <td x-data="{ open: false }"
                                 class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap flex items-center justify-center gap-3">
-                                <a href="/order/{{ $order->slug }}" class="text-green-300">
-                                    <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" width="16"
-                                        height="16" fill="currentColor" viewBox="0 0 16 16">
-                                        <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"></path>
-                                        <path
-                                            d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z">
-                                        </path>
-                                    </svg>
-                                </a>
-                                <a href="/admin/order/{{ $order->slug }}/edit" class="text-blue-600">
+
+                                <a href="/admin/order/{{ $order->id }}/edit" class="text-blue-600">
                                     <svg class="w-6 h-6" fill="currentColor" xmlns="http://www.w3.org/2000/svg"
                                         viewBox="0 0 576 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) -->
                                         <path
@@ -165,7 +83,7 @@
                                         <p class="text-lg font-medium">Do you really want to delete the order</p>
                                         <div class="flex items-center gap-8 py-6">
                                             <a class="px-6 py-3 bg-red-500 text-white font-medium text-md"
-                                                href="/admin/order/{{ $order->slug }}/delete">Yes</a>
+                                                href="/admin/order/{{ $order->id }}/delete">Yes</a>
                                             <button class="px-6 py-2.5 bg-blue-500 text-white font-medium text-md"
                                                 x-on:click="open = ! open">No</button>
                                         </div>

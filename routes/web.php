@@ -8,6 +8,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
+use App\Models\Category;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -33,17 +34,36 @@ Route::middleware('auth')->group(function () {
     // Users Routes
     Route::get('/admin/users', [UserController::class, 'index'])->name('users');
     Route::post('/admin/users/store', [UserController::class, 'store'])->name('createUser');
+    Route::get('/admin/user/{user:slug}/edit', [UserController::class, 'edit']);
+    Route::post('/admin/user/{user:slug}/update', [UserController::class, 'update']);
+    Route::get('/admin/user/{user:slug}/delete', [UserController::class, 'destory']);
 
+    // Category Routes
     Route::get('/admin/categories', [CategoryController::class, 'index'])->name('categories');
-    Route::Post('/admin/categories', [CategoryController::class, 'store'])->name('categories');
+    Route::post('/admin/categories', [CategoryController::class, 'store'])->name('categories');
+    Route::get('/admin/category/{category:slug}/edit', [CategoryController::class, 'edit']);
+    Route::post('/admin/category/{category:slug}/update', [CategoryController::class, 'update']);
+    Route::get('/admin/category/{category:slug}/delete', [CategoryController::class, 'destory']);
 
+    // Author Roputes
     Route::get('/admin/authors', [AuthorController::class, 'index'])->name('authors');
-    Route::Post('/admin/authors', [AuthorController::class, 'store'])->name('authors');
+    Route::post('/admin/authors', [AuthorController::class, 'store'])->name('authors');
+    Route::get('/admin/author/{author:slug}/edit', [AuthorController::class, 'edit']);
+    Route::post('/admin/author/{author:slug}/update', [AuthorController::class, 'update']);
+    Route::get('/admin/author/{author:slug}/delete', [AuthorController::class, 'destory']);
 
+    // Book Routes
     Route::get('/admin/books', [BookController::class, 'index'])->name('books');
     Route::post('/admin/books', [BookController::class, 'store'])->name('createBook');
+    Route::get('/admin/book/{book:slug}/edit', [BookController::class, 'edit']);
+    Route::post('/admin/book/{book:slug}/update', [BookController::class, 'update']);
+    Route::get('/admin/book/{book:slug}/delete', [BookController::class, 'destory']);
 
-    Route::get('/admin/orders',[OrderController::class,'index'])->name('orders');
+    // Order Routes
+    Route::get('/admin/orders', [OrderController::class, 'index'])->name('orders');
+    Route::get('/admin/order/{order:id}/edit', [OrderController::class, 'edit']);
+    Route::post('/admin/order/{order:id}/update', [OrderController::class, 'update']);
+    Route::get('/admin/order/{order:id}/delete', [OrderController::class, 'destory']);
 });
 
 
