@@ -21,7 +21,8 @@ class DatabaseSeeder extends Seeder
         try {
             Role::create([
                 'name' => 'admin'
-            ], [
+            ]);
+            Role::create([
                 'name' => 'customer'
             ]);
 

@@ -110,7 +110,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="4" class="border-2 text-center py-4 font-semibold text-lg">No category Yet
+                            <td colspan="4" class="border-2 text-center py-4 font-semibold text-lg">No author Yet
                             </td>
                         </tr>
                     @endforelse ()

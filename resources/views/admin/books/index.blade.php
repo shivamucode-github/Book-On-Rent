@@ -5,15 +5,16 @@
         </h2>
     </x-slot>
 
-    <div class="py-2 h-screen">
+    <div class="py-2">
         <div class=" max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="border-b-2 px-4 flex items-center justify-between">
                 <h1 colspan="7" class="py-3 text-2xl">All Books</h1>
-                <div class="flex items-center gap-4" @if ($errors->any()) x-data="{ open: true }" @else x-data="{ open: false }" @endif>
+                <div class="flex items-center gap-4"
+                    @if ($errors->any()) x-data="{ open: true }" @else x-data="{ open: false }" @endif>
                     <form action="#" method="get">
                         <input
                             class="search outline-none border-2 border-gray-300 rounded-md placeholder:text-gray-400 px-4"
-                            type="search" id="" placeholder="Search Book Name and Slug" name="search" >
+                            type="search" id="" placeholder="Search Book Name and Slug" name="search">
                     </form>
                     <button x-on:click="open = ! open" class="bg-blue-500 px-6 py-2 rounded-md text-white">Add
                         book</button>
@@ -22,7 +23,8 @@
                         <div
                             class="bg-white w-1/3 mt-6 px-6 py-3 flex flex-col items-center justify-center gap-8 rounded-lg">
                             <h2 class="block text-4xl font-semibold">Add book</h2>
-                            <form method="POST" action="{{ route('createBook') }}" class="w-full" enctype="multipart/form-data">
+                            <form method="POST" action="{{ route('createBook') }}" class="w-full"
+                                enctype="multipart/form-data">
                                 @csrf
 
                                 <!-- Name -->
@@ -44,10 +46,11 @@
                                 {{-- Category --}}
                                 <div class="mt-4">
                                     <x-input-label for="category" :value="__('Category')" />
-                                    <select name="category" id="category" class="py-2 px-3 w-full rounded-md bg-gray-100 border-gray-300">
+                                    <select name="category" id="category"
+                                        class="py-2 px-3 w-full rounded-md bg-gray-100 border-gray-300">
                                         <option value="" selected disabled>Select One</option>
                                         @foreach ($categories as $category)
-                                        <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                            <option value="{{ $category->id }}">{{ $category->name }}</option>
                                         @endforeach
                                     </select>
                                     <x-input-error :messages="$errors->get('category')" class="mt-2" />
@@ -56,14 +59,26 @@
                                 {{-- Author --}}
                                 <div class="mt-4">
                                     <x-input-label for="author" :value="__('Author')" />
-                                    <select name="author" id="author" class="py-2 px-3 w-full rounded-md bg-gray-100 border-gray-300">
+                                    <select name="author" id="author"
+                                        class="py-2 px-3 w-full rounded-md bg-gray-100 border-gray-300">
                                         <option value="" selected disabled>Select One</option>
                                         @foreach ($authors as $author)
-                                        <option value="{{ $author->id }}">{{ $author->name }}</option>
+                                            <option value="{{ $author->id }}">{{ $author->name }}</option>
                                         @endforeach
                                     </select>
                                     <x-input-error :messages="$errors->get('author')" class="mt-2" />
                                 </div>
+
+
+                                <!-- Description -->
+                                <div>
+                                    <x-input-label for="description" :value="__('Description')" />
+                                    <textarea id="description" class="py-2 px-3 w-full rounded-md bg-gray-100 border-gray-300" type="description" name="description" :value="old('description')"
+                                        required>
+                                    </textarea>
+                                    <x-input-error :messages="$errors->get('description')" class="mt-2" />
+                                </div>
+
 
                                 <!-- Thumbnail -->
                                 <div class="mt-4">
@@ -119,7 +134,8 @@
                 </thead>
                 <tbody class="bg-slate-300">
                     @forelse ($books as $key => $book)
-                        <tr class="bg-white border-b border-gray-500 transition duration-300 ease-in-out hover:bg-gray-100 text-center">
+                        <tr
+                            class="bg-white border-b border-gray-500 transition duration-300 ease-in-out hover:bg-gray-100 text-center">
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                                 {{ $book->id }}</td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
@@ -127,7 +143,8 @@
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                                 {{ $book->slug }}</td>
                             <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                <img src="{{ asset('storage/'.$book->thumbnail) }}" alt="Image not available" class="w-40 h-40 object-cover">
+                                <img src="{{ asset('storage/' . $book->thumbnail) }}" alt="Image not available"
+                                    class="w-40 h-40 object-cover">
                             </td>
                             <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                                 {{ ucwords($book->price) }}
@@ -140,6 +157,19 @@
                             </td>
                             <td x-data="{ open: false }"
                                 class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap h-44 flex items-center justify-center gap-3">
+                                <a href="/admin/book/{{ $book->slug }}/show" class="text-yellow-500">
+                                    <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"
+                                        fill="currentColor">
+                                        <defs></defs>
+                                        <title>view--filled</title>
+                                        <circle cx="16" cy="16" r="4"></circle>
+                                        <path
+                                            d="M30.94,15.66A16.69,16.69,0,0,0,16,5,16.69,16.69,0,0,0,1.06,15.66a1,1,0,0,0,0,.68A16.69,16.69,0,0,0,16,27,16.69,16.69,0,0,0,30.94,16.34,1,1,0,0,0,30.94,15.66ZM16,22.5A6.5,6.5,0,1,1,22.5,16,6.51,6.51,0,0,1,16,22.5Z">
+                                        </path>
+                                        <rect id="_Transparent_Rectangle_" data-name="<Transparent Rectangle>"
+                                            class="cls-1" width="32" height="32" style="fill:none"></rect>
+                                    </svg>
+                                </a>
                                 <a href="/admin/book/{{ $book->slug }}/edit" class="text-blue-600">
                                     <svg class="w-6 h-6" fill="currentColor" xmlns="http://www.w3.org/2000/svg"
                                         viewBox="0 0 576 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) -->

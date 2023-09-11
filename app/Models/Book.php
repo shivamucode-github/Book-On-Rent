@@ -17,7 +17,8 @@ class Book extends Model
         'price',
         'thumbnail',
         'author_id',
-        'category_id'
+        'category_id',
+        'description'
     ];
 
     // Add Slug

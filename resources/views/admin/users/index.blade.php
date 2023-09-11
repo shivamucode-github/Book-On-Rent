@@ -9,11 +9,12 @@
         <div class=" max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="border-b-2 px-4 flex items-center justify-between">
                 <h1 colspan="7" class="py-3 text-2xl">All Users</h1>
-                <div class="flex items-center gap-4" @if ($errors->any()) x-data="{ open: true }" @else x-data="{ open: false }" @endif>
+                <div class="flex items-center gap-4"
+                    @if ($errors->any()) x-data="{ open: true }" @else x-data="{ open: false }" @endif>
                     <form action="#" method="get">
                         <input
                             class="search outline-none border-2 border-gray-300 rounded-md placeholder:text-gray-400 px-4"
-                            type="search" id="" placeholder="Search here" name="search" >
+                            type="search" id="" placeholder="Search here" name="search">
                     </form>
                     <button x-on:click="open = ! open" class="bg-blue-500 px-6 py-2 rounded-md text-white">Add
                         user</button>
@@ -105,6 +106,9 @@
                             {{ __('Slug') }}
                         </th>
                         <th scope="col" class="text-sm font-semibold text-gray-900 px-6 py-4 text-center">
+                            {{ __('Role') }}
+                        </th>
+                        <th scope="col" class="text-sm font-semibold text-gray-900 px-6 py-4 text-center">
                             {{ __('Email') }}
                         </th>
                         <th scope="col" class="text-sm font-semibold text-gray-900 px-6 py-4 text-center">
@@ -127,6 +131,9 @@
                                 {{ ucwords($user->name) }}</td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                                 {{ $user->slug }}</td>
+                            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                {{ ucwords($user->role->name) }}
+                            </td>
                             <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                                 {{ ucwords($user->email) }}
                             </td>

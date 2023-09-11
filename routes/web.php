@@ -53,6 +53,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/admin/author/{author:slug}/delete', [AuthorController::class, 'destory']);
 
     // Book Routes
+    Route::get('/admin/book/{book:slug}/show',[BookController::class,'show']);
     Route::get('/admin/books', [BookController::class, 'index'])->name('books');
     Route::post('/admin/books', [BookController::class, 'store'])->name('createBook');
     Route::get('/admin/book/{book:slug}/edit', [BookController::class, 'edit']);

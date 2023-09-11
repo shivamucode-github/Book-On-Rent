@@ -11,6 +11,13 @@ use Illuminate\Http\Request;
 
 class BookController extends Controller
 {
+    public function show(Book $book)
+    {
+        return view('admin.books.show',[
+            'book' => $book
+        ]);
+    }
+
     public function index()
     {
         return view('admin.books.index', [
@@ -29,6 +36,7 @@ class BookController extends Controller
                 'price' => $request->price,
                 'author_id' => $request->author,
                 'category_id' => $request->category,
+                'description' => $request->description
             ]);
 
             return back()->with('success', 'Book Added Succesfully..');
@@ -46,7 +54,7 @@ class BookController extends Controller
         ]);
     }
 
-    public function update(Book $book,BookRequest $request)
+    public function update(Book $book, BookRequest $request)
     {
         try {
             $book->update([
@@ -55,10 +63,12 @@ class BookController extends Controller
                 'price' => $request->price,
                 'author_id' => $request->author,
                 'category_id' => $request->category,
+                'description' => $request->description
             ]);
 
             return back()->with('success', 'Book Updated Succesfully..');
         } catch (Exception $e) {
+            dd($e->getMessage());
             return back()->with('error', 'Something went wrong');
         }
     }
@@ -67,7 +77,7 @@ class BookController extends Controller
     {
         try {
             $book->delete();
-            return back()->with('success','Book Deleted ..');
+            return back()->with('success', 'Book Deleted ..');
         } catch (Exception $e) {
             return back()->with('error', 'Something went wrong ');
         }
