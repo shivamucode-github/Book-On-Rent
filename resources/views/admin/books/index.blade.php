@@ -40,7 +40,7 @@
                                     <x-input-label for="price" :value="__('Price')" />
                                     <x-text-input id="price" class="block mt-1 w-full" type="number" name="price"
                                         :value="old('price')" required autocomplete="price" />
-                                    <x-input-error :messages="$errors->get('email')" class="mt-2" />
+                                    <x-input-error :messages="$errors->get('price')" class="mt-2" />
                                 </div>
 
                                 {{-- Category --}}
@@ -69,12 +69,26 @@
                                     <x-input-error :messages="$errors->get('author')" class="mt-2" />
                                 </div>
 
+                                <!-- Stock -->
+                                <div class="mt-4">
+                                    <x-input-label for="stock" :value="__('Stock')" />
+                                    <x-text-input id="stock" class="block mt-1 w-full" type="number" name="stock"
+                                        :value="old('stock')" required autocomplete="stock" />
+                                    <x-input-error :messages="$errors->get('stock')" class="mt-2" />
+                                </div>
+                                <!-- Rank -->
+                                <div class="mt-4">
+                                    <x-input-label for="rank" :value="__('Rank')" />
+                                    <x-text-input id="rank" class="block mt-1 w-full" type="number" name="rank"
+                                        :value="old('rank')" required autocomplete="rank" />
+                                    <x-input-error :messages="$errors->get('rank')" class="mt-2" />
+                                </div>
 
                                 <!-- Description -->
                                 <div>
                                     <x-input-label for="description" :value="__('Description')" />
-                                    <textarea id="description" class="py-2 px-3 w-full rounded-md bg-gray-100 border-gray-300" type="description" name="description" :value="old('description')"
-                                        required>
+                                    <textarea id="description" class="py-2 px-3 w-full rounded-md bg-gray-100 border-gray-300" type="description"
+                                        name="description" :value="old('description')" required>
                                     </textarea>
                                     <x-input-error :messages="$errors->get('description')" class="mt-2" />
                                 </div>
@@ -128,6 +142,9 @@
                             {{ __('Category') }}
                         </th>
                         <th scope="col" class="text-sm font-semibold text-gray-900 px-6 py-4 text-center">
+                            {{ __('Stock') }}
+                        </th>
+                        <th scope="col" class="text-sm font-semibold text-gray-900 px-6 py-4 text-center">
                             {{ __('Action') }}
                         </th>
                     </tr>
@@ -154,6 +171,9 @@
                             </td>
                             <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                                 {{ ucwords($book->category->name) }}
+                            </td>
+                            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                {{ ucwords($book->stock) }}
                             </td>
                             <td x-data="{ open: false }"
                                 class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap h-44 flex items-center justify-center gap-3">

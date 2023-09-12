@@ -21,6 +21,8 @@ class Book extends Model
         'description'
     ];
 
+    protected $with = ['category', 'user', 'author'];
+
     // Add Slug
     public function sluggable(): array
     {
@@ -68,7 +70,59 @@ class Book extends Model
             $query->where(
                 fn ($query) =>
                 $query->where('name', 'LIKE', '%' . $search . '%')
-                    ->orwhere('slug', 'LIKE', '%' . $search . '%')
+                    ->orwhere(
+                        fn ($query) =>
+                        $query->whereHas(
+                            'category',
+                            fn ($query) =>
+                            $query->where('name', 'LIKE', '%' . $search . '%')
+                        )
+                            ->orwhereHas(
+                                'author',
+                                fn ($query) =>
+                                $query->where('name', 'LIKE', '%' . $search . '%')
+                            )
+                    )
+            )
+        );
+
+        // $query->when(
+        //     $filters['category'] ?? false,
+        //     fn ($query, $search) =>
+        //     $query->whereHas(
+        //         'category',
+        //         fn ($query) =>
+        //         $query->where('name', 'LIKE', '%' . $search . '%')
+        //     )
+        // );
+
+        // $query->when(
+        //     $filters['search'] ?? false,
+        //     fn ($query, $search) =>
+        //     $query->whereHas(
+        //         'author',
+        //         fn ($query) =>
+        //         $query->where('name', 'LIKE', '%' . $search . '%')
+        //     )
+        // );
+
+        $query->when(
+            $filters['category'] ?? false,
+            fn ($query, $category) =>
+            $query->whereHas(
+                'category',
+                fn ($query) =>
+                $query->where('slug', $category)
+            )
+        );
+
+        $query->when(
+            $filters['author'] ?? false,
+            fn ($query, $author) =>
+            $query->whereHas(
+                'author',
+                fn ($query) =>
+                $query->where('slug', $author)
             )
         );
     }

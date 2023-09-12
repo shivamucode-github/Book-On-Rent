@@ -36,7 +36,9 @@ class BookController extends Controller
                 'price' => $request->price,
                 'author_id' => $request->author,
                 'category_id' => $request->category,
-                'description' => $request->description
+                'description' => $request->description,
+                'rank' => $request->rank,
+                'stock' => $request->stock,
             ]);
 
             return back()->with('success', 'Book Added Succesfully..');
@@ -63,7 +65,9 @@ class BookController extends Controller
                 'price' => $request->price,
                 'author_id' => $request->author,
                 'category_id' => $request->category,
-                'description' => $request->description
+                'description' => $request->description,
+                'rank' => $request->rank,
+                'stock' => $request->stock,
             ]);
 
             return back()->with('success', 'Book Updated Succesfully..');

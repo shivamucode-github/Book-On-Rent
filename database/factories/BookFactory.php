@@ -27,7 +27,9 @@ class BookFactory extends Factory
                 'author_id' => Author::all()->pluck('id')->random(),
                 'thumbnail' => null,
                 'price' => fake()->randomDigit(),
-                'description' => fake()->paragraph()
+                'description' => fake()->paragraph(),
+                'rank' => '4',
+                'stock' => '50'
             ];
         }catch(Exception $e){
             return "Please Add Author and Category first";

@@ -3,7 +3,10 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthorController;
 use App\Http\Controllers\BookController;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CustomerBookListController;
+use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProfileController;
@@ -24,8 +27,13 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth')->group(function () {
     Route::get('/', [DashboardController::class, 'index'])->middleware('auth')->name('dashboard');
-    Route::get('/home',);
+    Route::get('/home', [CustomerController::class, 'index']);
+    Route::get('/books',[CustomerBookListController::class, 'index']);
+    Route::get('/item/{book:slug}/show',[CartController::class,'create']);
+    Route::get('/cart',[CartController::class, 'index']);
+    Route::post('/cart/{book:slug}/store',[CartController::class,'store']);
 });
+
 
 // Admin Routes
 Route::middleware('auth')->group(function () {
@@ -53,7 +61,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/admin/author/{author:slug}/delete', [AuthorController::class, 'destory']);
 
     // Book Routes
-    Route::get('/admin/book/{book:slug}/show',[BookController::class,'show']);
+    Route::get('/admin/book/{book:slug}/show', [BookController::class, 'show']);
     Route::get('/admin/books', [BookController::class, 'index'])->name('books');
     Route::post('/admin/books', [BookController::class, 'store'])->name('createBook');
     Route::get('/admin/book/{book:slug}/edit', [BookController::class, 'edit']);

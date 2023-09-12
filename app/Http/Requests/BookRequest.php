@@ -26,7 +26,9 @@ class BookRequest extends FormRequest
             'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048|nullable',
             'price' => 'numeric',
             'author' => 'numeric',
-            'category' => 'numeric'
+            'category' => 'numeric',
+            'stock' => 'numeric',
+            'rank' => 'floor|min:1|max:5'
         ];
     }
 }

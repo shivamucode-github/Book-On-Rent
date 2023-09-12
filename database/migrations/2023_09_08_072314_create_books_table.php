@@ -22,6 +22,8 @@ return new class extends Migration
             $table->unsignedBigInteger('category_id')->nullable();
             $table->foreign('category_id')->references('id')->on('categories');
             $table->text('description')->nullable();
+            $table->integer('stock')->nullable();
+            $table->float('rank')->nullable();
             $table->timestamps();
         });
     }
