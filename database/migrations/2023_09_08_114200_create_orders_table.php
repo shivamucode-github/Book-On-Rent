@@ -20,6 +20,7 @@ return new class extends Migration
             $table->float('price')->nullable();
             $table->integer('days')->nullable();
             $table->integer('quantity')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

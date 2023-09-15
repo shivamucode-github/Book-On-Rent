@@ -6,10 +6,11 @@ use Cviebrock\EloquentSluggable\Sluggable;
 use Exception;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Book extends Model
 {
-    use HasFactory, Sluggable;
+    use HasFactory, Sluggable,SoftDeletes;
 
     protected $fillable = [
         'name',
@@ -18,7 +19,9 @@ class Book extends Model
         'thumbnail',
         'author_id',
         'category_id',
-        'description'
+        'description',
+        'stock',
+        'rank'
     ];
 
     protected $with = ['category', 'user', 'author'];

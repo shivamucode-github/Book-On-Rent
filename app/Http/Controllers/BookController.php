@@ -8,6 +8,7 @@ use App\Models\Book;
 use App\Models\Category;
 use Exception;
 use Illuminate\Http\Request;
+use Ramsey\Uuid\Type\Integer;
 
 class BookController extends Controller
 {
@@ -37,8 +38,8 @@ class BookController extends Controller
                 'author_id' => $request->author,
                 'category_id' => $request->category,
                 'description' => $request->description,
-                'rank' => $request->rank,
-                'stock' => $request->stock,
+                'rank' => (int)$request->rank,
+                'stock' => (int)$request->stock,
             ]);
 
             return back()->with('success', 'Book Added Succesfully..');
@@ -66,8 +67,8 @@ class BookController extends Controller
                 'author_id' => $request->author,
                 'category_id' => $request->category,
                 'description' => $request->description,
-                'rank' => $request->rank,
-                'stock' => $request->stock,
+                'rank' => (int)$request->rank,
+                'stock' => (int)$request->stock,
             ]);
 
             return back()->with('success', 'Book Updated Succesfully..');

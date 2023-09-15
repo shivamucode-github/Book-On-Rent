@@ -9,6 +9,70 @@
         <div class=" max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="border-b-2 px-4 flex items-center justify-between">
                 <h1 colspan="7" class="py-3 text-2xl">All Orders</h1>
+                <div class="flex items-center gap-4"
+                    @if ($errors->any()) x-data="{ open: true }" @else x-data="{ open: false }" @endif>
+                    <button x-on:click="open = ! open" class="bg-blue-500 px-6 py-2 rounded-md text-white">Add
+                        Order</button>
+                    <div x-show="open"
+                        class="fixed overflow-auto py-6 inset-0 bg-black/60 flex items-center justify-center z-30">
+                        <div
+                            class="bg-white w-1/3 mt-6 px-6 py-6 flex flex-col items-center justify-center gap-4 rounded-lg">
+                            <h2 class="block text-4xl font-semibold">Add Category</h2>
+                            <form method="POST" action="/admin/order/store" class="w-full">
+                                @csrf
+
+                                {{-- Users --}}
+                                <div class="mt-4">
+                                    <x-input-label for="user" :value="__('User')" />
+                                    <select name="user" id="user"
+                                        class="py-2 px-3 w-full rounded-md bg-gray-100 border-gray-300">
+                                        <option value="" selected disabled>Select One</option>
+                                        @foreach ($users as $user)
+                                            <option value="{{ $user->id }}">{{ $user->name }}</option>
+                                        @endforeach
+                                    </select>
+                                    <x-input-error :messages="$errors->get('user')" class="mt-2" />
+                                </div>
+
+                                {{-- Books --}}
+                                <div class="mt-4">
+                                    <x-input-label for="book" :value="__('Book')" />
+                                    <select name="book" id="book"
+                                        class="py-2 px-3 w-full rounded-md bg-gray-100 border-gray-300">
+                                        <option value="" selected disabled>Select One</option>
+                                        @foreach ($books as $book)
+                                            <option value="{{ $book->id }}">{{ $book->name }}</option>
+                                        @endforeach
+                                    </select>
+                                    <x-input-error :messages="$errors->get('book')" class="mt-2" />
+                                </div>
+
+
+                                <!-- Days -->
+                                <div>
+                                    <x-input-label for="days" :value="__('Rent for days')" />
+                                    <x-text-input id="days" class="block mt-1 w-full" type="number" name="days"
+                                        :value="old('days')" required autofocus autocomplete="days" />
+                                    <x-input-error :messages="$errors->get('days')" class="mt-2" />
+                                </div>
+
+                                <!-- Quantity -->
+                                <div class="mt-4">
+                                    <x-input-label for="quantity" :value="__('Quantity')" />
+                                    <x-text-input id="quantity" class="block mt-1 w-full" type="number"
+                                        name="quantity" :value="old('quantity')" required autocomplete="quantity" />
+                                    <x-input-error :messages="$errors->get('quantity')" class="mt-2" />
+                                </div>
+
+                                <div class="flex items-center justify-end mt-4 gap-6">
+                                    <x-primary-button type="submit" class="ml-4">
+                                        {{ __('Add') }}
+                                    </x-primary-button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="h-full bg-white shadow-sm sm:rounded-lg p-4">
@@ -48,7 +112,7 @@
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                                 {{ $order->book->name }}</td>
                             <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                {{ 'Rs '.ucwords($order->price) }}
+                                {{ 'Rs ' . ucwords($order->price) }}
                             </td>
                             <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                                 {{ ucwords($order->quantity) }}
@@ -105,41 +169,4 @@
         </div>
     </div>
     </div>
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
-        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-    <script>
-        $(document).ready(function() {
-            $('#createUser').on('click', function() {
-                var xhr = new XMLHttpRequest();
-                var resourceId = $('.slug').val();
-                var url = '/change-status/' + resourceId;
-                xhr.open("GET", url, false);
-                xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
-                xhr.send();
-                var data = JSON.parse(xhr.response);
-                if (data.statuscode == 200) {
-                    //    alert('kk');
-                    alert(data.success);;
-                } else {
-                    toastr.error(data.message);
-                }
-                // var resourceId = $('.slug').val(); // Replace with your resource ID
-                // $.ajax({
-                //     type: 'POST',
-                //     url: '/change-status/' + resourceId,
-                //     data: {
-                //         _token: '{{ csrf_token() }}' // Add CSRF token for security
-                //     },
-                //     success: function(data) {
-                //         alert(data.message);
-                //         // Handle success, update UI, etc.
-                //     },
-                //     error: function(xhr, status, error) {
-                //         console.error(error);
-                //         // Handle error
-                //     }
-                // });
-            });
-        });
-    </script>
 </x-app-layout>

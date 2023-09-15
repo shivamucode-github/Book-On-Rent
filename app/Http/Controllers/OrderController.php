@@ -30,6 +30,24 @@ class OrderController extends Controller
         ]);
     }
 
+    public function store(OrderRequest $request)
+    {
+        try {
+            $price = Book::find($request->book)->price / 10 * $request->days * $request->quantity;
+            Order::create([
+                'user_id' => $request->user,
+                'book_id' => $request->book,
+                'price' => $price,
+                'days' => $request->days,
+                'quantity' => $request->quantity
+            ]);
+
+            return back()->with('success', 'Order created successfully');
+        } catch (Exception $e) {
+            return back()->with('error', 'Something went wrong');
+        }
+    }
+
     public function update(Order $order,OrderRequest $request)
     {
         try {

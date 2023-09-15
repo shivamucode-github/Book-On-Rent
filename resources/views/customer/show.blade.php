@@ -2,15 +2,15 @@
 @section('main')
     <main class="bg-white py-6">
         <section class="px-10 py-8 max-w-7xl m-auto h-full bg-gray-200 rounded-2xl my-6 flex items-start gap-8">
-            <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=871&q=80"
-                alt="Image not available" class="rounded-lg max-w-xl h-full object-cover">
+            <img src="{{ asset('storage/' . $book->thumbnail) }}" alt="Image not available"
+                class="rounded-lg max-w-xl h-96 object-cover">
             <div class="w-full">
                 <div class="border-b border-gray-400 pb-2">
                     <span class="text-4xl font-semibold">{{ $book->name }}</span>
                     <p>by <span class="text-lg text-blue-600 px-1">{{ $book->author->name }}</span> {{ '(Author)' }}
                         ,<span class="text-lg text-blue-600 pl-2">{{ $book->category->name }}</span> {{ '(Category)' }} </p>
                     <p class="py-1">{{ $book->description }}</p>
-                        <div class="flex items-end py-2">
+                    <div class="flex items-end py-2">
                         <svg class="w-6 h-6 {{ $book->rank >= 1 ? 'text-yellow-400' : 'text-gray-300' }}"
                             xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                             <path fill-rule="evenodd"
@@ -81,8 +81,21 @@
                                 </div>
                             </div>
                             <div class="py-4 flex items-center gap-6">
-                                <button type="submit" class="px-6 py-3 bg-blue-500 text-white rounded-lg">Add to
-                                    Cart</button>
+                                @if (in_array($book->id, $orders->toArray()))
+                                    <a class="px-6 py-2 bg-blue-500 text-white rounded-lg flex items-center gap-2"
+                                        href="/cart">
+                                        <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
+                                            fill="currentColor">
+                                            <polygon
+                                                points="16.172 9 10.101 2.929 11.515 1.515 20 10 19.293 10.707 11.515 18.485 10.101 17.071 16.172 11 0 11 0 9">
+                                            </polygon>
+                                        </svg>
+                                        <span>Go To Cart</span>
+                                    </a>
+                                @else
+                                    <button type="submit" class="px-6 py-3 bg-blue-500 text-white rounded-lg">Add to
+                                        Cart</button>
+                                @endif
                                 <a href="#" class="px-6 py-3 bg-red-500 text-white rounded-lg">Buy Now</a>
                             </div>
                         </form>

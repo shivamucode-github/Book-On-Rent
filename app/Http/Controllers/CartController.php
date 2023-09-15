@@ -14,7 +14,7 @@ class CartController extends Controller
     public function index()
     {
         return view('customer.cart', [
-            'orders' => Order::where('user_id', Auth::id())->get(),
+            'orders' => Order::where('user_id', Auth::id())->latest()->get(),
             'payments' => Order::all()->pluck('price')
         ]);
     }
@@ -22,7 +22,8 @@ class CartController extends Controller
     public function create(Book $book)
     {
         return view('customer.show', [
-            'book' => $book
+            'book' => $book,
+            'orders' => Order::where('user_id', Auth::id())->pluck('book_id'),
         ]);
     }
 
@@ -30,20 +31,55 @@ class CartController extends Controller
     {
         try {
             if ($request->quantity <= $book->stock) {
-                $price = $book->price / 10 * $request->days * $request->quantity;
+                $request->days ? $request->days : $request->request->add(['days' => 1]);
+                $request->quantity ? $request->quantity : $request->request->add(['quantity' => 1]);
+                $price = (8 / 100 * $book->price) * $request->days * $request->quantity;
+
                 Order::create([
                     'user_id' => Auth::id(),
                     'book_id' => $book->id,
                     'price' => $price,
-                    'days' => $request->days,
-                    'quantity' => $request->quantity
+                    'days' => $request->days ? $request->days : 1,
+                    'quantity' => $request->quantity ? $request->quantity : 1
                 ]);
-
-                return back()->with('success', 'Order created successfully');
+                return back()->with('success', 'Book Added to Cart');
             }
             return back()->with('error', 'Quantity is more than stock');
         } catch (Exception $e) {
             return back()->with('error', 'Something went wrong');
+        }
+    }
+
+    public function update(Order $order, Request $request)
+    {
+        // dd($request->days != null ? $request->days : $order->days);
+        try {
+            if ($request->quantity <= $order->book->stock) {
+                $request->days ? $request->days : $request->request->add(['days' => $order->days]);
+                $request->quantity ? $request->quantity : $request->request->add(['quantity' => $order->quantity]);
+
+                $price = (8 / 100 * $order->book->price) * $request->days * $request->quantity;
+
+                $order->update([
+                    'price' => $price,
+                    'days' => $request->days != null ? $request->days : $order->days,
+                    'quantity' => $request->quantity    != null ? $request->quantity : $order->quantity
+                ]);
+                return  response()->json(['status' => 'Done'], 200);
+            }
+            return back()->with('error', 'Quantity is more than stock');
+        } catch (Exception $e) {
+            return back()->with('error', 'Something went wrong');
+        }
+    }
+
+    public function destory(Order $order)
+    {
+        try {
+            $order->delete();
+            return back()->with('success', 'Order deleted Succesfuly');
+        } catch (Exception $e) {
+            return back()->with('error', 'Something went wrong, Please try again later.');
         }
     }
 }

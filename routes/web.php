@@ -10,9 +10,12 @@ use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ReturnBookController;
+use App\Http\Controllers\StripePaymentController;
 use App\Http\Controllers\UserController;
 use App\Models\Category;
 use Illuminate\Support\Facades\Route;
+use PhpParser\Node\Stmt\Return_;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,10 +31,28 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth')->group(function () {
     Route::get('/', [DashboardController::class, 'index'])->middleware('auth')->name('dashboard');
     Route::get('/home', [CustomerController::class, 'index']);
-    Route::get('/books',[CustomerBookListController::class, 'index']);
-    Route::get('/item/{book:slug}/show',[CartController::class,'create']);
-    Route::get('/cart',[CartController::class, 'index']);
-    Route::post('/cart/{book:slug}/store',[CartController::class,'store']);
+    Route::get('/books', [CustomerBookListController::class, 'index']);
+
+    // Cart Routes
+    Route::get('/item/{book:slug}/show', [CartController::class, 'create']);
+    Route::get('/cart', [CartController::class, 'index'])->name('cart');
+    Route::post('/cart/{book:slug}/store', [CartController::class, 'store']);
+    Route::post('/cart/{order:id}/update', [CartController::class, 'update']);
+    Route::get('/cart/{order:id}/delete', [CartController::class, 'destory']);
+
+    // Return Book Routes
+    Route::get('/return', [ReturnBookController::class, 'create']);
+    Route::post('/return/{id?}', [ReturnBookController::class, 'view']);
+
+    // Stripe Routes
+    Route::name('stripe.')
+    ->controller(StripePaymentController::class)
+    ->prefix('stripe')
+    ->group(function () {
+        Route::get('payment', 'index')->name('index');
+        Route::post('payment', 'store')->name('store');
+    });
+
 });
 
 
@@ -70,6 +91,7 @@ Route::middleware('auth')->group(function () {
 
     // Order Routes
     Route::get('/admin/orders', [OrderController::class, 'index'])->name('orders');
+    Route::post('/admin/order/store', [OrderController::class, 'store']);
     Route::get('/admin/order/{order:id}/edit', [OrderController::class, 'edit']);
     Route::post('/admin/order/{order:id}/update', [OrderController::class, 'update']);
     Route::get('/admin/order/{order:id}/delete', [OrderController::class, 'destory']);

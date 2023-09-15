@@ -5,10 +5,11 @@
             class="py-10 px-2 sm:px-10 lg:px-32 bg-white space-y-12 max-w-7xl m-auto mt-6 rounded-2xl relative">
             <div class="bg-white grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-5">
                 @forelse ($books as $book)
-                    <a href="#" class="rounded-[2rem] border border-black p-4 space-y-4">
+                <div class="rounded-[2rem] border border-black p-4 space-y-4">
+                    <a href="/item/{{ $book->slug }}/show">
                         <div class="rounded-[2rem] h-[15rem] border-2 border-black overflow-hidden">
-                            <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=871&q=80"
-                                alt="" class="object-cover object-center w-full h-full">
+                            <img src="{{ asset('storage/' . $book->thumbnail) }}" alt="image not available"
+                                class="object-cover object-center w-full h-full">
                         </div>
                         <div class="space-y-1 flex items-end justify-between">
                             <small class="text-lg font-bold">{{ $book->name }}</small>
@@ -66,6 +67,27 @@
                             </div>
                         </div>
                     </a>
+                    <div class="flex justify-between items-center gap-2">
+                        @if (in_array($book->id, $orders->toArray()))
+                            <a class="px-6 py-2 bg-blue-500 text-white rounded-lg flex items-center gap-2" href="/cart">
+                                <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
+                                    fill="currentColor">
+                                    <polygon
+                                        points="16.172 9 10.101 2.929 11.515 1.515 20 10 19.293 10.707 11.515 18.485 10.101 17.071 16.172 11 0 11 0 9">
+                                    </polygon>
+                                </svg>
+                                <span>Go To Cart</span>
+                            </a>
+                        @else
+                            <form action="/cart/{{ $book->slug }}/store" method="post">
+                                @csrf
+                                <button type="submit" class="px-6 py-2 bg-blue-500 text-white rounded-lg">Add to
+                                    Cart</button>
+                            </form>
+                        @endif
+                        <a href="#" class="px-6 py-2 bg-red-500 text-white rounded-lg">Buy Now</a>
+                    </div>
+                </div>
                 @empty
             </div>
             <div class="w-full text-center">

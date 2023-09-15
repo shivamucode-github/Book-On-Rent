@@ -11,10 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('roles', function (Blueprint $table) {
+        Schema::create('paid_orders', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->nullable();
-            $table->softDeletes();
+            $table->unsignedBigInteger('transaction_id');
+            $table->unsignedBigInteger('book_id');
+            $table->foreign('transaction_id')->references('id')->on('payments');
+            $table->foreign('book_id')->references('id')->on('books');
             $table->timestamps();
         });
     }
@@ -24,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('roles');
+        Schema::dropIfExists('paid_orders');
     }
 };

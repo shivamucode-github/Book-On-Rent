@@ -26,7 +26,7 @@ class BookFactory extends Factory
                 'category_id' => Category::all()->pluck('id')->random(),
                 'author_id' => Author::all()->pluck('id')->random(),
                 'thumbnail' => null,
-                'price' => fake()->randomDigit(),
+                'price' => fake()->numberBetween(100,1000),
                 'description' => fake()->paragraph(),
                 'rank' => '4',
                 'stock' => '50'

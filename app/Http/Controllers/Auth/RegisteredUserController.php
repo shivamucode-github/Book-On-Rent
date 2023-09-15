@@ -40,10 +40,9 @@ class RegisteredUserController extends Controller
                 'role_id' => Role::where('name','customer')->first()->id
             ]);
 
-            Auth::login($user);
-            return redirect(RouteServiceProvider::HOME)->with('success','Registration Succesfully..! Now Login');
+            return redirect('/login')->with('success','Registration Succesfully..! Now Login');
         }catch(Exception $e){
-            return redirect(RouteServiceProvider::HOME)->with('error','Something went wrong');
+            return back()->with('error','Something went wrong');
         }
     }
 }

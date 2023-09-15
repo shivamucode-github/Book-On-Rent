@@ -24,6 +24,7 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->integer('stock')->nullable();
             $table->float('rank')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

@@ -3,13 +3,21 @@
         <x-application-logo />
     </a>
     <nav>
-        <ul class="flex items-center gap-12">
+        <ul class="flex items-center gap-8">
             <li><a class="hover:text-blue-500" href="/">Home</a></li>
             <li class="relative" x-data="{ open: false }">
-                <x-category-dropdown />
+                <button x-on:click="open = ! open">Find</button>
+                <ul x-show="open" class="absolute top-10 -left-2 z-10 bg-white border border-gray-300 divide-y divide-gray-400">
+                    <li>
+                        <x-category-dropdown />
+                    </li>
+                    <li>
+                        <x-author-dropdown />
+                    </li>
+                </ul>
             </li>
             <li class="relative" x-data="{ open: false }">
-                <x-author-dropdown />
+                <a href="/return">Return Book</a>
             </li>
             <li class="relative" x-data="{ open: false }">
                 <x-cart-component />
