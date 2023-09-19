@@ -103,9 +103,9 @@
                 @foreach ($books as $book)
                     <div class="rounded-[2rem] border border-black p-4 space-y-4">
                         <a href="/item/{{ $book->slug }}/show">
-                            <div class="rounded-[2rem] h-[15rem] border-2 border-black overflow-hidden">
+                            <div class="rounded-[2rem] h-80 border-2 border-black overflow-hidden">
                                 <img src="{{ asset('storage/' . $book->thumbnail) }}" alt="image not available"
-                                    class="object-cover object-center w-full h-full">
+                                    class="object-contain w-full h-full">
                             </div>
                             <div class="space-y-1 flex items-end justify-between">
                                 <small class="text-lg font-bold">{{ $book->name }}</small>

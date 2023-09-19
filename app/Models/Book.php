@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Book extends Model
 {
-    use HasFactory, Sluggable,SoftDeletes;
+    use HasFactory, Sluggable, SoftDeletes;
 
     protected $fillable = [
         'name',
@@ -64,6 +64,10 @@ class Book extends Model
         return $this->belongsTo(Author::class);
     }
 
+    public function order(){
+        return $this->hasMany(Order::class);
+    }
+
     // Filters
     public function scopeFilter($query, array $filters)
     {
@@ -89,26 +93,6 @@ class Book extends Model
             )
         );
 
-        // $query->when(
-        //     $filters['category'] ?? false,
-        //     fn ($query, $search) =>
-        //     $query->whereHas(
-        //         'category',
-        //         fn ($query) =>
-        //         $query->where('name', 'LIKE', '%' . $search . '%')
-        //     )
-        // );
-
-        // $query->when(
-        //     $filters['search'] ?? false,
-        //     fn ($query, $search) =>
-        //     $query->whereHas(
-        //         'author',
-        //         fn ($query) =>
-        //         $query->where('name', 'LIKE', '%' . $search . '%')
-        //     )
-        // );
-
         $query->when(
             $filters['category'] ?? false,
             fn ($query, $category) =>
@@ -129,4 +113,5 @@ class Book extends Model
             )
         );
     }
+
 }

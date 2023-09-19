@@ -12,6 +12,7 @@
 </head>
 
 <body class="font-sans bg-black">
+    <x-flash />
     @include('customer.layout.header')
     @yield('main')
     @include('customer.layout.footer')

@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('paid_orders', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('transaction_id');
-            $table->unsignedBigInteger('book_id');
+            $table->unsignedBigInteger('order_id');
             $table->foreign('transaction_id')->references('id')->on('payments');
-            $table->foreign('book_id')->references('id')->on('books');
+            $table->foreign('order_id')->references('id')->on('orders');
             $table->timestamps();
         });
     }

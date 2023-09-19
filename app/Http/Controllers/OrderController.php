@@ -5,9 +5,10 @@ namespace App\Http\Controllers;
 use App\Http\Requests\OrderRequest;
 use App\Models\Book;
 use App\Models\Order;
+use App\Models\Payment;
+use App\Models\Payments;
 use App\Models\User;
 use Exception;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
@@ -15,15 +16,23 @@ class OrderController extends Controller
     public function index()
     {
         return view('admin.orders.index', [
-            'orders' => Order::paginate(15),
+            'orders' => Payment::paginate(15),
             'users' => User::where('id', '!=', Auth::id())->get(),
             'books' => Book::all()
         ]);
     }
 
+    public function display(Payment $payment)
+    {
+        return view('admin.orders.display',[
+            'payment' => $payment,
+            'orders' => $payment->orderAssigned
+        ]);
+    }
+
     public function edit(Order $order)
     {
-        return view('admin.orders.edit',[
+        return view('admin.orders.edit', [
             'order' => $order,
             'users' => User::all(),
             'books' => Book::all()
@@ -48,7 +57,7 @@ class OrderController extends Controller
         }
     }
 
-    public function update(Order $order,OrderRequest $request)
+    public function update(Order $order, OrderRequest $request)
     {
         try {
             $price = Book::find($request->book)->price / 10 * $request->days * $request->quantity;
@@ -66,11 +75,11 @@ class OrderController extends Controller
         }
     }
 
-    public function destory(Order $order)
+    public function destory(Payment $order)
     {
         try {
             $order->delete();
-            return back()->with('success','Order Deleted ..');
+            return back()->with('success', 'Order Deleted ..');
         } catch (Exception $e) {
             return back()->with('error', 'Something went wrong ');
         }

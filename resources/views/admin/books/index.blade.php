@@ -129,7 +129,7 @@
                         <th scope="col" class="text-sm font-semibold text-gray-900 px-6 py-4 text-center">
                             {{ __('Slug') }}
                         </th>
-                        <th scope="col" class="text-sm font-semibold text-gray-900 px-6 py-4 text-center">
+                        <th scope="col" class="text-sm font-semibold text-gray-900 px-16 py-4 text-center">
                             {{ __('Thumbnail') }}
                         </th>
                         <th scope="col" class="text-sm font-semibold text-gray-900 px-6 py-4 text-center">
@@ -161,7 +161,7 @@
                                 {{ $book->slug }}</td>
                             <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                                 <img src="{{ asset('storage/' . $book->thumbnail) }}" alt="Image not available"
-                                    class="w-40 h-40 object-cover">
+                                    class="w-40 h-52 object-center object-cover">
                             </td>
                             <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                                 {{ ucwords($book->price) }}

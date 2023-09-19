@@ -7,6 +7,7 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CustomerBookListController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\CustomerOrderController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProfileController;
@@ -28,8 +29,9 @@ use PhpParser\Node\Stmt\Return_;
 |
 */
 
-Route::middleware('auth')->group(function () {
-    Route::get('/', [DashboardController::class, 'index'])->middleware('auth')->name('dashboard');
+Route::get('/', [DashboardController::class, 'index'])->middleware('auth')->name('dashboard');
+
+Route::middleware(['auth', 'auth.customer.check'])->group(function () {
     Route::get('/home', [CustomerController::class, 'index']);
     Route::get('/books', [CustomerBookListController::class, 'index']);
 
@@ -40,24 +42,27 @@ Route::middleware('auth')->group(function () {
     Route::post('/cart/{order:id}/update', [CartController::class, 'update']);
     Route::get('/cart/{order:id}/delete', [CartController::class, 'destory']);
 
+    // Order
+    Route::get('/orders', [CustomerOrderController::class, 'index']);
+    Route::get('/order/{payment:slug}/show', [CustomerOrderController::class, 'display']);
+
     // Return Book Routes
     Route::get('/return', [ReturnBookController::class, 'create']);
-    Route::post('/return/{id?}', [ReturnBookController::class, 'view']);
+    Route::post('/return', [ReturnBookController::class, 'view']);
 
     // Stripe Routes
     Route::name('stripe.')
-    ->controller(StripePaymentController::class)
-    ->prefix('stripe')
-    ->group(function () {
-        Route::get('payment', 'index')->name('index');
-        Route::post('payment', 'store')->name('store');
-    });
-
+        ->controller(StripePaymentController::class)
+        ->prefix('stripe')
+        ->group(function () {
+            Route::get('payment', 'index')->name('index');
+            Route::post('payment', 'store')->name('store');
+        });
 });
 
 
 // Admin Routes
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', 'auth.admin.check'])->group(function () {
     Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
 
     // Users Routes
@@ -91,18 +96,18 @@ Route::middleware('auth')->group(function () {
 
     // Order Routes
     Route::get('/admin/orders', [OrderController::class, 'index'])->name('orders');
-    Route::post('/admin/order/store', [OrderController::class, 'store']);
-    Route::get('/admin/order/{order:id}/edit', [OrderController::class, 'edit']);
-    Route::post('/admin/order/{order:id}/update', [OrderController::class, 'update']);
-    Route::get('/admin/order/{order:id}/delete', [OrderController::class, 'destory']);
-});
+    // Route::post('/admin/order/store', [OrderController::class, 'store']);
+    // Route::get('/admin/order/{order:id}/edit', [OrderController::class, 'edit']);
+    // Route::post('/admin/order/{order:id}/update', [OrderController::class, 'update']);
+    Route::get('/admin/order/{Payment:slug}/delete', [OrderController::class, 'destory']);
+    Route::get('/admin/order/{payment:slug}/show', [OrderController::class, 'display']);
 
-
-// Profile Route
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    // Profile Route
+    Route::middleware('auth')->group(function () {
+        Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+        Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+        Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    });
 });
 
 

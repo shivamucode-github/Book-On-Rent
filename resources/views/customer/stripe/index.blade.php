@@ -17,11 +17,13 @@
                         name</label>
                     <input type="text" name="name" id="card-name"
                         class="border-2 border-gray-200 h-11 px-4 rounded-xl w-full">
+                        <x-input-error :messages="$errors->get('name')" class="mt-2" />
                 </div>
                 <div class="mb-3">
                     <label for="email" class="inline-block font-bold mb-2 uppercase text-sm tracking-wider">Email</label>
                     <input type="email" name="email" id="email"
                         class="border-2 border-gray-200 h-11 px-4 rounded-xl w-full">
+                        <x-input-error :messages="$errors->get('email')" class="mt-2" />
                 </div>
                 <div class="mb-3">
                     <label for="card" class="inline-block font-bold mb-2 uppercase text-sm tracking-wider">Card

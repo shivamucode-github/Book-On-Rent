@@ -9,7 +9,7 @@
                 <div>
                     <x-input-label for="rentId" :value="__('Enter the Rental Id')" />
                     <x-text-input id="rentId" class="block mt-1 w-full" type="text" name="rentId" :value="old('rentId')"
-                        required autofocus autocomplete="rentId" />
+                        required autofocus />
                     <x-input-error :messages="$errors->get('rentId')" class="mt-2" />
                 </div>
                 <button class="px-6 py-2 bg-blue-500 text-white rounded-md">Submit</button>

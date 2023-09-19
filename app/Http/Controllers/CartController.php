@@ -13,15 +13,15 @@ class CartController extends Controller
 {
     public function index()
     {
-        return view('customer.cart', [
-            'orders' => Order::where('user_id', Auth::id())->latest()->get(),
+        return view('customer.cart.index', [
+            'orders' => Order::where('user_id', Auth::id())->withoutTrashed()->latest()->get(),
             'payments' => Order::all()->pluck('price')
         ]);
     }
 
     public function create(Book $book)
     {
-        return view('customer.show', [
+        return view('customer.cart.show', [
             'book' => $book,
             'orders' => Order::where('user_id', Auth::id())->pluck('book_id'),
         ]);
@@ -33,7 +33,7 @@ class CartController extends Controller
             if ($request->quantity <= $book->stock) {
                 $request->days ? $request->days : $request->request->add(['days' => 1]);
                 $request->quantity ? $request->quantity : $request->request->add(['quantity' => 1]);
-                $price = (8 / 100 * $book->price) * $request->days * $request->quantity;
+                $price = (4 / 100 * $book->price) * $request->days * $request->quantity;
 
                 Order::create([
                     'user_id' => Auth::id(),
@@ -58,7 +58,7 @@ class CartController extends Controller
                 $request->days ? $request->days : $request->request->add(['days' => $order->days]);
                 $request->quantity ? $request->quantity : $request->request->add(['quantity' => $order->quantity]);
 
-                $price = (8 / 100 * $order->book->price) * $request->days * $request->quantity;
+                $price = (4 / 100 * $order->book->price) * $request->days * $request->quantity;
 
                 $order->update([
                     'price' => $price,
