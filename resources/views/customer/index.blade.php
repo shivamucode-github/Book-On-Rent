@@ -1,4 +1,7 @@
 @extends('customer.layout.main')
+@push('title')
+    <title>Book On Rent | Home</title>
+@endpush
 @section('main')
     <main>
         <section
@@ -101,11 +104,11 @@
             </header>
             <div class="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-5">
                 @foreach ($books as $book)
-                    <div class="rounded-[2rem] border border-black p-4 space-y-4">
-                        <a href="/item/{{ $book->slug }}/show">
+                    <div class="rounded-[2rem] border border-black p-4 space-y-4 group">
+                        <div>
                             <div class="rounded-[2rem] h-80 border-2 border-black overflow-hidden">
                                 <img src="{{ asset('storage/' . $book->thumbnail) }}" alt="image not available"
-                                    class="object-contain w-full h-full">
+                                    class="object-contain w-full h-full group-hover:object-cover">
                             </div>
                             <div class="space-y-1 flex items-end justify-between">
                                 <small class="text-lg font-bold">{{ $book->name }}</small>
@@ -162,7 +165,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </a>
+                        </div>
                         <div class="flex justify-between items-center gap-2">
                             @if (in_array($book->id, $orders->toArray()))
                                 <a class="px-6 py-2 bg-blue-500 text-white rounded-lg flex items-center gap-2" href="/cart">
@@ -181,7 +184,7 @@
                                         Cart</button>
                                 </form>
                             @endif
-                            <a href="#" class="px-6 py-2 bg-red-500 text-white rounded-lg">Buy Now</a>
+                            <a href="/item/{{ $book->slug }}/show" class="px-6 py-2 bg-slate-300 rounded-lg">View Details</a>
                         </div>
                     </div>
                 @endforeach

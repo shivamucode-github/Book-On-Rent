@@ -1,7 +1,10 @@
 @extends('customer.layout.main')
+@push('title')
+    <title>Book On Rent | Order Details</title>
+@endpush
 @section('main')
     <main>
-        <section class="h-screen bg-white shadow-sm sm:rounded-lg p-4">
+        <section class="bg-white shadow-sm sm:rounded-lg p-4">
             <a href="/orders" class="py-3 px-3 rounded-lg my-3 text-blue-500 inline-flex bg-gray-200">
                 <svg class="fill-current mr-2 text-indigo-600 w-4" viewBox="0 0 448 512">
                     <path
@@ -72,7 +75,7 @@
                     @empty
                         <tr>
                         <tr>
-                            <td colspan="7" class="border-2 text-center py-4 font-semibold text-lg">No Record Yet
+                            <td colspan="8" class="border-2 text-center py-4 font-semibold text-lg">No Record Yet
                             </td>
                         </tr>
                         </tr>

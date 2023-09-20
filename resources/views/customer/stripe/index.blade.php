@@ -1,4 +1,7 @@
 @extends('customer.layout.main')
+@push('title')
+    <title>Book On Rent | Stripe Payment</title>
+@endpush
 @section('main')
     <div class="panel panel-default bg-white">
         <div class="panel-body  max-w-xl m-auto py-16">

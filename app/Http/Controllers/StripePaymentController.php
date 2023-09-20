@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StripePaymentRequest;
+use App\Models\Book;
 use App\Models\Order;
 use App\Models\PaidOrders;
 use App\Models\Payment;
@@ -14,9 +15,13 @@ use Stripe\StripeClient;
 
 class StripePaymentController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $payment = Order::where('user_id', Auth::id())->withoutTrashed()->pluck('price')->sum();
+        if ($request->balance) {
+            $payment = $request->balance;
+        } else {
+            $payment = Order::where('user_id', Auth::id())->withoutTrashed()->pluck('price')->sum();
+        }
         return view('customer.stripe.index', [
             'payment' => $payment
         ]);
@@ -47,9 +52,9 @@ class StripePaymentController extends Controller
             // To store transaction data in our database
             $this->savePaidOrders($value);
         } catch (Exception $th) {
-            return back()->with('error', "There was a problem processing your payment");
+            return redirect('/cart')->with('error', "There was a problem processing your payment");
         }
-        return back()->with('success', 'Payment done.');
+        return redirect('/cart')->with('success', 'Payment done.');
     }
 
     // function to store data in database
@@ -64,8 +69,11 @@ class StripePaymentController extends Controller
             ]);
 
             if ($status) {
-
                 $ids = Order::where('user_id', Auth::id())->withoutTrashed()->pluck('id');
+                foreach ($ids as $id) {
+                    $order = Order::find($id);
+                    $order->bookStockUpdate();
+                }
                 $status->orderAssigned()->attach($ids);
                 Order::destroy($ids);
             }

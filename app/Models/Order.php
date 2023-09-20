@@ -34,6 +34,13 @@ class Order extends Model
 
     public function paidOrder()
     {
-        return $this->hasOne(PaidOrder::class , 'order_id');
+        return $this->hasOne(PaidOrder::class, 'order_id');
+    }
+
+    public function bookStockUpdate()
+    {
+        $book = Book::find($this->book_id);
+        $book->update(['stock' => $book->stock - $this->quantity]);
+        return 1;
     }
 }

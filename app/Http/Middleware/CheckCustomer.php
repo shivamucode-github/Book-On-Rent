@@ -16,7 +16,9 @@ class CheckCustomer
      */
     public function handle(Request $request, Closure $next): Response
     {
+
         if (Auth::user()->role_id == '2') {
+            // dd($request);
             return $next($request);
         } else {
             return redirect('/')->with('error', 'Invalid Access');

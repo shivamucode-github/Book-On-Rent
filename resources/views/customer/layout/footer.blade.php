@@ -1,4 +1,4 @@
-<footer class="px-4 md:px-12 lg:px-32 py-16 space-y-8">
+<footer class="px-4 md:px-12 lg:px-32 py-16 space-y-8 bg-black">
     <div class="flex flex-col md:flex-row gap-20 md:gap-32 lg:gap-56 w-full justify-between">
         <div class="w-full">
             <ul class="flex items-center justify-between gap-8">

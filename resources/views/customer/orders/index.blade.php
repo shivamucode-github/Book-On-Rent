@@ -1,4 +1,7 @@
 @extends('customer.layout.main')
+@push('title')
+    <title>Book On Rent | Orders</title>
+@endpush
 @section('main')
     <main>
         <section class="h-screen bg-white px-12 py-6">

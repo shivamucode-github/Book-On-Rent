@@ -22,7 +22,7 @@
                         <div
                             class="bg-white w-1/3 mt-6 px-6 py-6 flex flex-col items-center justify-center gap-4 rounded-lg">
                             <h2 class="block text-4xl font-semibold">Add Category</h2>
-                            <form action="{{ route('categories') }}" method="post"
+                            <form action="{{ route('categories.store') }}" method="post"
                                 class="flex flex-col gap-6">
                                 @csrf
                                 <div class="flex flex-col items-start gap-1 text-lg font-base">

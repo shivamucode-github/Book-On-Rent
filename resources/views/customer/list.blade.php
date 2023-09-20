@@ -1,4 +1,7 @@
 @extends('customer.layout.main')
+@push('title')
+    <title>Book On Rent | Home</title>
+@endpush
 @section('main')
     <main>
         <section id="books"

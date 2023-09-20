@@ -1,4 +1,7 @@
 @extends('customer.layout.main')
+@push('title')
+    <title>Book On Rent | Details</title>
+@endpush
 @section('main')
     <main class="bg-white py-6">
         <section class="px-10 py-8 max-w-7xl m-auto h-full bg-gray-200 rounded-2xl my-6 flex items-start gap-8">
@@ -96,7 +99,6 @@
                                     <button type="submit" class="px-6 py-3 bg-blue-500 text-white rounded-lg">Add to
                                         Cart</button>
                                 @endif
-                                <a href="#" class="px-6 py-3 bg-red-500 text-white rounded-lg">Buy Now</a>
                             </div>
                         </form>
                     @endif

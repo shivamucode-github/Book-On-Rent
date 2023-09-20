@@ -14,9 +14,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReturnBookController;
 use App\Http\Controllers\StripePaymentController;
 use App\Http\Controllers\UserController;
-use App\Models\Category;
 use Illuminate\Support\Facades\Route;
-use PhpParser\Node\Stmt\Return_;
 
 /*
 |--------------------------------------------------------------------------
@@ -49,14 +47,14 @@ Route::middleware(['auth', 'auth.customer.check'])->group(function () {
     // Return Book Routes
     Route::get('/return', [ReturnBookController::class, 'create']);
     Route::post('/return', [ReturnBookController::class, 'view']);
+    Route::post('/return/book', [ReturnBookController::class, 'edit'])->name('returnBook');
 
     // Stripe Routes
     Route::name('stripe.')
         ->controller(StripePaymentController::class)
-        ->prefix('stripe')
         ->group(function () {
-            Route::get('payment', 'index')->name('index');
-            Route::post('payment', 'store')->name('store');
+            Route::post('/stripe', 'index')->name('index');
+            Route::post('/stripe/payment', 'store')->name('store');
         });
 });
 
