@@ -33,7 +33,7 @@ class CartController extends Controller
             if ($request->quantity <= $book->stock) {
                 $request->days ? $request->days : $request->request->add(['days' => 1]);
                 $request->quantity ? $request->quantity : $request->request->add(['quantity' => 1]);
-                $price = (4 / 100 * $book->price) * $request->days * $request->quantity;
+                $price = (2 / 100 * $book->price) * $request->days * $request->quantity;
 
                 Order::create([
                     'user_id' => Auth::id(),
@@ -52,20 +52,19 @@ class CartController extends Controller
 
     public function update(Order $order, Request $request)
     {
-        // dd($request->days != null ? $request->days : $order->days);
         try {
             if ($request->quantity <= $order->book->stock) {
                 $request->days ? $request->days : $request->request->add(['days' => $order->days]);
                 $request->quantity ? $request->quantity : $request->request->add(['quantity' => $order->quantity]);
 
-                $price = (4 / 100 * $order->book->price) * $request->days * $request->quantity;
+                $price = (2 / 100 * $order->book->price) * $request->days * $request->quantity;
 
                 $order->update([
                     'price' => $price,
                     'days' => $request->days != null ? $request->days : $order->days,
                     'quantity' => $request->quantity    != null ? $request->quantity : $order->quantity
                 ]);
-                return  response()->json(['status' => 'Done'], 200);
+                return response()->json(['status' => 'Done', 'statusCode' => 200]);
             }
             return back()->with('error', 'Quantity is more than stock');
         } catch (Exception $e) {

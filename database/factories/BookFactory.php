@@ -19,21 +19,20 @@ class BookFactory extends Factory
      */
     public function definition(): array
     {
-        try{
+        try {
             return [
                 'name' => fake()->lastName(2),
-                'slug' => fake()->slug(1),
+                'slug' => fake()->sentence(1),
                 'category_id' => Category::all()->pluck('id')->random(),
                 'author_id' => Author::all()->pluck('id')->random(),
                 'thumbnail' => null,
-                'price' => fake()->numberBetween(100,1000),
+                'price' => fake()->numberBetween(100, 1000),
                 'description' => fake()->paragraph(),
                 'rank' => '4',
                 'stock' => '50'
             ];
-        }catch(Exception $e){
+        } catch (Exception $e) {
             return "Please Add Author and Category first";
         }
-
     }
 }

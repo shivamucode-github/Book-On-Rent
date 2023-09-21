@@ -40,11 +40,13 @@ class ReturnBookController extends Controller
 
         if ($days <= $order->days) {
             $order->update(['return_at' => now()]);
+            $order->book->update(['stock' => $order->book->stock + $order->quantity]);
             return back()->with('success', 'Book Returned Thankyou Visit Again..');
         } else {
+            $price = ((2 / 100 * $order->book->price) * ($days - $order->days) * $order->quantity) + 10;
             return view('customer.returnBook.index', [
                 'order' => $order,
-                'balance' => ($days - $order->days) * 10,
+                'balance' => $price,
                 'days' => $days - $order->days
             ]);
         }

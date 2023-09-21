@@ -9,7 +9,7 @@
         <div class=" max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="border-b-2 px-4 flex items-center justify-between">
                 <h1 colspan="7" class="py-3 text-2xl">All Books</h1>
-                <div class="flex items-center gap-4"
+                <div class="flex items-center gap-4" x-cloak
                     @if ($errors->any()) x-data="{ open: true }" @else x-data="{ open: false }" @endif>
                     <form action="#" method="get">
                         <input
@@ -175,7 +175,7 @@
                             <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                                 {{ ucwords($book->stock) }}
                             </td>
-                            <td x-data="{ open: false }"
+                            <td x-cloak x-data="{ open: false }"
                                 class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap h-44 flex items-center justify-center gap-3">
                                 <a href="/admin/book/{{ $book->slug }}/show" class="text-yellow-500">
                                     <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"

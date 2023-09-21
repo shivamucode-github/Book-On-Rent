@@ -50,7 +50,7 @@
                             <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                                 {{ $order->created_at->format('d-M-Y') }}
                             </td>
-                            <td x-data="{ open: false }"
+                            <td x-cloak x-data="{ open: false }"
                                 class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap flex items-center justify-center gap-3">
                                 <a href="/admin/order/{{ $order->slug }}/show" class="text-yellow-500">
                                     <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"

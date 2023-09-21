@@ -9,7 +9,7 @@
         <div class=" max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="border-b-2 px-4 flex items-center justify-between">
                 <h1 colspan="7" class="py-3 text-2xl">All Authors</h1>
-                <div class="flex items-center gap-4"
+                <div class="flex items-center gap-4" x-cloak
                     @if ($errors->any()) x-data="{ open: true }" @else x-data="{ open: false }" @endif>
                     <form action="#" method="get">
                         <input
@@ -74,7 +74,7 @@
                                 {{ ucwords($author->name) }}</td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                                 {{ $author->slug }}</td>
-                            <td x-data="{ open: false }"
+                            <td x-cloak x-data="{ open: false }"
                                 class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap flex items-center justify-center gap-3">
                                 <a href="/admin/author/{{ $author->slug }}/edit" class="text-blue-600">
                                     <svg class="w-6 h-6" fill="currentColor" xmlns="http://www.w3.org/2000/svg"

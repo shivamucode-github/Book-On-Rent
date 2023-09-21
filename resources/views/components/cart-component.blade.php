@@ -6,25 +6,10 @@
         </path>
     </svg>
     <span>Cart</span>
-    <span id="cartCount" class="px-3 py-1 bg-blue-500 text-white rounded-full font-medium absolute -top-6 -right-7">{{ count($orders) }}</span>
+    @if (count($orders) > 0)
+        <span id="cartCount"
+            class="px-3 py-1 bg-blue-500 text-white rounded-full font-medium absolute -top-6 -right-7">{{ count($orders) }}</span>
+    @endif
 </a>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"
-        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-    <script>
-        $(document).ready(function() {
-            $('#cartCount').on('load', function() {
-                var xhr = new XMLHttpRequest();
-                var resourceId = $(this).val();
-                $.ajax({
-                    type: 'GET',
-                    url: '/cart/store',
-                    data: {
-                        _token: '{{ csrf_token() }}' // Add CSRF token for security
-                    },
-                    success: function(data) {
-                        alert('Book Added to Cart');
-                    }
-                });
-            });
-        });
-    </script>
+    integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>

@@ -16,7 +16,8 @@ class Payment extends Model
         'slug',
         'transaction_id',
         'status',
-        'amount'
+        'amount',
+        'description'
     ];
 
     public function sluggable(): array

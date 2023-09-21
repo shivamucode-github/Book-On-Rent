@@ -72,14 +72,14 @@ Route::middleware(['auth', 'auth.admin.check'])->group(function () {
 
     // Category Routes
     Route::get('/admin/categories', [CategoryController::class, 'index'])->name('categories');
-    Route::post('/admin/categories', [CategoryController::class, 'store'])->name('categories');
+    Route::post('/admin/categories', [CategoryController::class, 'store'])->name('categories.store');
     Route::get('/admin/category/{category:slug}/edit', [CategoryController::class, 'edit']);
     Route::post('/admin/category/{category:slug}/update', [CategoryController::class, 'update']);
     Route::get('/admin/category/{category:slug}/delete', [CategoryController::class, 'destory']);
 
     // Author Roputes
     Route::get('/admin/authors', [AuthorController::class, 'index'])->name('authors');
-    Route::post('/admin/authors', [AuthorController::class, 'store'])->name('authors');
+    Route::post('/admin/authors', [AuthorController::class, 'store'])->name('authors.store');
     Route::get('/admin/author/{author:slug}/edit', [AuthorController::class, 'edit']);
     Route::post('/admin/author/{author:slug}/update', [AuthorController::class, 'update']);
     Route::get('/admin/author/{author:slug}/delete', [AuthorController::class, 'destory']);

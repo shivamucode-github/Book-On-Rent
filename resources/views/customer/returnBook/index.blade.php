@@ -89,7 +89,8 @@
                                     </p>
                                 </td>
                                 <td class="px-4 py-2">
-                                    <form action="/stripe" method="post">
+                                    <form action="{{ route('stripe.index', ['returnBook' => encrypt($order->id)]) }}"
+                                        method="post">
                                         @csrf
                                         <input hidden type="text" name="balance" value="{{ $balance }}">
                                         <button type="submit"

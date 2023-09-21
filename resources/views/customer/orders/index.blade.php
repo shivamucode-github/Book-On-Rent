@@ -1,6 +1,6 @@
 @extends('customer.layout.main')
 @push('title')
-    <title>Book On Rent | Orders</title>
+    <title>Book On Rent | Transactions</title>
 @endpush
 @section('main')
     <main>
@@ -13,6 +13,9 @@
                         </th>
                         <th scope="col" class="text-sm font-semibold text-gray-900 px-6 py-4 text-center">
                             {{ __('Transaction ID') }}
+                        </th>
+                        <th scope="col" class="text-sm font-semibold text-gray-900 px-6 py-4 text-center">
+                            {{ __('Description') }}
                         </th>
                         <th scope="col" class="text-sm font-semibold text-gray-900 px-6 py-4 text-center">
                             {{ __('Status') }}
@@ -35,6 +38,9 @@
                                 {{ $key + 1 }}</td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                                 {{ $order->transaction_id }}</td>
+                            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                {{ $order->description }}
+                            </td>
                             <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                                 {{ $order->status }}
                             </td>
@@ -63,7 +69,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="5" class="border-2 text-center py-4 font-semibold text-lg">No order Yet
+                            <td colspan="7" class="border-2 text-center py-4 font-semibold text-lg">No order Yet
                             </td>
                         </tr>
                     @endforelse ()

@@ -8,11 +8,14 @@
             <h1
                 class="text-3xl md:text-5xl font-extrabold text-center uppercase mb-12 bg-gradient-to-r from-indigo-400 via-purple-500 to-indigo-600 bg-clip-text text-transparent transform -rotate-2">
                 Make A Payment</h1>
-            <form action="{{ route('stripe.store') }}" method="POST" id="card-form">
+            <form
+                action="{{ route('stripe.store', ['payment' => encrypt($payment), 'cartCheckout' => $cartCheckout, 'returnBook' => $returnBook]) }}"
+                method="POST" id="card-form">
                 @csrf
                 <div class="mb-3">
-                    <label for="card-name" class="inline-block font-bold mb-2 uppercase text-sm tracking-wider">Payment</label>
-                    <input disabled value="Rs {{ $payment }}" type="text" name="name" id="card-name"
+                    <label for="card-name"
+                        class="inline-block font-bold mb-2 uppercase text-sm tracking-wider">Payment</label>
+                    <input disabled value="Rs {{ $payment }}" type="text" name="price" id="card-name"
                         class="border-2 border-gray-200 h-11 px-4 rounded-xl w-full">
                 </div>
                 <div class="mb-3">
@@ -20,13 +23,13 @@
                         name</label>
                     <input type="text" name="name" id="card-name"
                         class="border-2 border-gray-200 h-11 px-4 rounded-xl w-full">
-                        <x-input-error :messages="$errors->get('name')" class="mt-2" />
+                    <x-input-error :messages="$errors->get('name')" class="mt-2" />
                 </div>
                 <div class="mb-3">
                     <label for="email" class="inline-block font-bold mb-2 uppercase text-sm tracking-wider">Email</label>
                     <input type="email" name="email" id="email"
                         class="border-2 border-gray-200 h-11 px-4 rounded-xl w-full">
-                        <x-input-error :messages="$errors->get('email')" class="mt-2" />
+                    <x-input-error :messages="$errors->get('email')" class="mt-2" />
                 </div>
                 <div class="mb-3">
                     <label for="card" class="inline-block font-bold mb-2 uppercase text-sm tracking-wider">Card
