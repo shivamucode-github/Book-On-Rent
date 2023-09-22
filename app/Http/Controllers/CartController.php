@@ -8,14 +8,15 @@ use App\Models\Order;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Nette\Utils\Random;
 
 class CartController extends Controller
 {
     public function index()
     {
         return view('customer.cart.index', [
-            'orders' => Order::where('user_id', Auth::id())->withoutTrashed()->latest()->get(),
-            'payments' => Order::all()->pluck('price')
+            'orders' => Order::where('user_id', Auth::id())->where('days', '!=', null)->withoutTrashed()->latest()->get(),
+            'payments' => Order::where('user_id', Auth::id())->where('days', '!=', null)->pluck('price')
         ]);
     }
 
@@ -40,7 +41,8 @@ class CartController extends Controller
                     'book_id' => $book->id,
                     'price' => $price,
                     'days' => $request->days ? $request->days : 1,
-                    'quantity' => $request->quantity ? $request->quantity : 1
+                    'quantity' => $request->quantity ? $request->quantity : 1,
+                    'order_num' => GenerateUniqueNumber::uniqueOrderNumber()
                 ]);
                 return back()->with('success', 'Book Added to Cart');
             }

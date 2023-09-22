@@ -16,7 +16,7 @@ class OrderController extends Controller
     public function index()
     {
         return view('admin.orders.index', [
-            'orders' => Payment::paginate(15),
+            'orders' => Payment::orderBy('id', 'DESC')->paginate(15),
             'users' => User::where('id', '!=', Auth::id())->get(),
             'books' => Book::all()
         ]);
@@ -24,7 +24,7 @@ class OrderController extends Controller
 
     public function display(Payment $payment)
     {
-        return view('admin.orders.display',[
+        return view('admin.orders.display', [
             'payment' => $payment,
             'orders' => $payment->orderAssigned
         ]);

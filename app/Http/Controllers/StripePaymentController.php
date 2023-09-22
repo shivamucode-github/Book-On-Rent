@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StripePaymentRequest;
+use App\Models\Book;
 use App\Models\Order;
 use App\Models\Payment;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Nette\Utils\Random;
 use Stripe\StripeClient;
 
 class StripePaymentController extends Controller
@@ -16,17 +18,22 @@ class StripePaymentController extends Controller
     {
         // check the order quantity is not more than stock of book
         try {
-            $ids = Order::where('user_id', Auth::id())->withoutTrashed()->pluck('id');
-            foreach ($ids as $id) {
-                $order = Order::find($id);
-                if ($order->quantity > $order->book->stock) {
-                    return back()->with('error', 'Order Id :' . $order->id . ' have more quantity than stock.');
-                }
-            }
-            if ($request->balance) {
+            if ($request->id && $request->buyNow) {
+                $id = decrypt($request->id);
+                $book = Book::where('slug', $id)->first();
+                $buyNow = Order::create([
+                    'user_id' => Auth::id(),
+                    'book_id' => $book->id,
+                    'price' => $book->price,
+                    'days' => null,
+                    'quantity' => 1,
+                    'order_num' =>  GenerateUniqueNumber::uniqueOrderNumber()
+                ]);
+                $payment = $book->price;
+            } elseif ($request->balance) {
                 $payment = $request->balance;
             } else {
-                $payment = Order::where('user_id', Auth::id())->withoutTrashed()->pluck('price')->sum();
+                $payment = Order::where('user_id', Auth::id())->where('days', '!=', null)->withoutTrashed()->pluck('price')->sum();
             }
         } catch (Exception $e) {
             return back()->with('error', 'Something went wrong. plaese try after some time.');
@@ -35,7 +42,8 @@ class StripePaymentController extends Controller
         return view('customer.stripe.index', [
             'payment' => $payment,
             'returnBook' => $request->returnBook ?? null, // for checking the request is come from return book page
-            'cartCheckout' => $request->cartCheckout ?? null  // for checking the request is come from Add to cart page
+            'cartCheckout' => $request->cartCheckout ?? null,  // for checking the request is come from Add to cart page
+            'buyNow' => $buyNow ?? null //for checking the request is come from buy now
         ]);
     }
 
@@ -56,8 +64,12 @@ class StripePaymentController extends Controller
             if ($request->returnBook ?? null) {
                 $descreption = "Demo Charges for Late Returning of Book";
             }
+            if ($request->buyNow ?? null) {
+                $descreption = "Demo Payment of Buying Book";
+            }
         } catch (Exception $e) {
             dd($e->getMessage());
+            return back()->with('error', 'Something went wrong. plaese try after some time.');
         }
 
         // create stripe payment
@@ -84,7 +96,7 @@ class StripePaymentController extends Controller
         } catch (Exception $e) {
             return redirect('/cart')->with('error', "There was a problem processing your payment");
         }
-        return redirect('/cart')->with('success', 'Payment done.');
+        return redirect('/home')->with('orderSuccess', 'Payment done.');
     }
 
     // function to store data in database
@@ -102,7 +114,7 @@ class StripePaymentController extends Controller
 
             if ($status) {
                 if ($request->cartCheckout ?? null) {
-                    $ids = Order::where('user_id', Auth::id())->withoutTrashed()->pluck('id');
+                    $ids = Order::where('user_id', Auth::id())->where('days', '!=', null)->withoutTrashed()->pluck('id');
                     foreach ($ids as $id) {
                         $order = Order::find($id);
                         $order->bookStockUpdate(); //updating the stock of book
@@ -116,6 +128,12 @@ class StripePaymentController extends Controller
                     $order->update(['return_at' => now()]);  //update the order return_at column for check the book is returned
                     $order->book->update(['stock' => $order->book->stock + $order->quantity]); //updating the stock of book
 
+                }
+                if ($request->buyNow ?? null) {
+                    $order = Order::where('order_num', $request->buyNow)->first();
+                    $order->bookStockUpdate(); //updating the stock of book
+                    $status->orderAssigned()->attach($order);
+                    $order->delete();
                 }
             }
         } catch (Exception $e) {

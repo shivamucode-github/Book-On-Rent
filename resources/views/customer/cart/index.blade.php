@@ -31,8 +31,8 @@
                                 </div>
                                 <div x-cloak x-data="{ open: false }" class="flex flex-col justify-between ml-4 flex-grow">
                                     <div class="flex flex-col gap-1">
-                                        <span class="font-semibold text-lg text-gray-500">
-                                            {{ __('Order Id:') }} #{{ $order->id }}
+                                        <span class="font-semibold text-sm text-gray-500">
+                                            {{ __('Order Id:') }} #{{ $order->order_num }}
                                         </span>
                                         <span class="font-bold text-sm">{{ $order->book->name }}</span>
                                         <span class="text-red-500 text-xs">{{ $order->book->category->name }}</span>
@@ -55,7 +55,7 @@
                                             <p class="text-lg font-medium">Do you really want to delete the book</p>
                                             <div class="flex items-center gap-8 py-6">
                                                 <a class="px-6 py-3 bg-red-500 text-white font-medium text-md"
-                                                    href="/cart/{{ $order->id }}/delete">Yes</a>
+                                                    href="/cart/{{ $order->order_num }}/delete">Yes</a>
                                                 <button class="px-6 py-2.5 bg-blue-500 text-white font-medium text-md"
                                                     x-on:click="open = ! open">No</button>
                                             </div>
@@ -65,7 +65,7 @@
                             </div>
                             {{-- Quantity --}}
                             <div class="flex justify-center items-center gap-3 w-1/5 quantityDiv">
-                                <span class="orderId hidden">{{ $order->id }}</span>
+                                <span class="orderId hidden">{{ $order->order_num }}</span>
                                 <button class="decrementQty text-xl cursor-pointer px-0.5">-</button>
                                 <input disabled type="number" class="quantity w-16" value="{{ $order->quantity }}">
                                 <button class="incrementQty cursor-pointer px-0.5">+</button>

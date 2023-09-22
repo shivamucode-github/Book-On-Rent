@@ -39,9 +39,9 @@ class Payment extends Model
         return $this->belongsToMany(Order::class, 'paid_orders', 'transaction_id')->onlyTrashed()->withTimestamps();
     }
 
-    public function getBookAttribute()
+    public function getOrderAttribute()
     {
-        return implode(',', collect($this->orderAssigned->pluck('name')->toArray())->unique()->toArray());
+        return implode(',#', collect($this->orderAssigned->pluck('order_num')->toArray())->unique()->toArray());
     }
 
     public function user()

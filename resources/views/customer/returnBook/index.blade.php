@@ -24,7 +24,7 @@
                         <tr>
                             <td>Order ID</td>
                             <td><span>:</span></td>
-                            <td class="px-4 py-2">{{ $order->id }}</td>
+                            <td class="px-4 py-2">{{ $order->order_num }}</td>
                         </tr>
                         <tr>
                             <td>Name</td>
@@ -68,12 +68,14 @@
                         </tr>
                         <tr>
                             <td colspan="3" class="pb-3">
-                                @if ($order->return_at)
+                                @if (!$order->days)
+                                    <span class="text-lg text-green-500 font-semibold">Book Buyed</span>
+                                @elseif ($order->return_at)
                                     <span class="text-lg text-green-500 font-semibold">Book Returned</span>
                                 @else
                                     <form action="{{ route('returnBook') }}" method="post">
                                         @csrf
-                                        <input hidden type="number" name="id" value="{{ $order->id }}">
+                                        <input hidden type="number" name="id" value="{{ $order->order_num }}">
                                         <button type="submit"
                                             class="px-6 py-2 bg-red-500 text-white font-medium rounded-lg">Return Book</button>
                                     </form>
@@ -89,10 +91,10 @@
                                     </p>
                                 </td>
                                 <td class="px-4 py-2">
-                                    <form action="{{ route('stripe.index', ['returnBook' => encrypt($order->id)]) }}"
+                                    <form
+                                        action="{{ route('stripe.index', ['returnBook' => encrypt($order->id), 'balance' => enycrpt($balance)]) }}"
                                         method="post">
                                         @csrf
-                                        <input hidden type="text" name="balance" value="{{ $balance }}">
                                         <button type="submit"
                                             class="block text-center bg-indigo-500 font-semibold hover:bg-indigo-600 py-3 text-sm text-white uppercase w-full">Pay
                                             Now</button>

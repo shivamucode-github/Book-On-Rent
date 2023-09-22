@@ -5,7 +5,6 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Facades\DB;
 
 class Order extends Model
 {
@@ -13,14 +12,13 @@ class Order extends Model
 
     protected $fillable = [
         'user_id',
+        'order_num',
         'book_id',
         'price',
         'days',
         'quantity',
         'return_at',
-        'balance'
     ];
-
 
     public function user()
     {

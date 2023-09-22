@@ -32,23 +32,19 @@ Route::get('/', [DashboardController::class, 'index'])->middleware('auth')->name
 Route::middleware(['auth', 'auth.customer.check'])->group(function () {
     Route::get('/home', [CustomerController::class, 'index']);
     Route::get('/books', [CustomerBookListController::class, 'index']);
-
     // Cart Routes
     Route::get('/item/{book:slug}/show', [CartController::class, 'create']);
     Route::get('/cart', [CartController::class, 'index'])->name('cart');
     Route::post('/cart/{book:slug}/store', [CartController::class, 'store']);
-    Route::post('/cart/{order:id}/update', [CartController::class, 'update']);
-    Route::get('/cart/{order:id}/delete', [CartController::class, 'destory']);
-
+    Route::post('/cart/{order:order_num}/update', [CartController::class, 'update']);
+    Route::get('/cart/{order:order_num}/delete', [CartController::class, 'destory']);
     // Order
     Route::get('/orders', [CustomerOrderController::class, 'index']);
     Route::get('/order/{payment:slug}/show', [CustomerOrderController::class, 'display']);
-
     // Return Book Routes
     Route::get('/return', [ReturnBookController::class, 'create']);
     Route::post('/return', [ReturnBookController::class, 'view']);
     Route::post('/return/book', [ReturnBookController::class, 'edit'])->name('returnBook');
-
     // Stripe Routes
     Route::name('stripe.')
         ->controller(StripePaymentController::class)

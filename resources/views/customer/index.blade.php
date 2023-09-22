@@ -4,6 +4,7 @@
 @endpush
 @section('main')
     <main>
+        <x-order-success />
         <section
             class="pt-56 sm:pt-28 md:pt-8 px-0 lg:px-32 bg-white lg:h-screen rounded-br-[5rem] lg:rounded-br-[15rem] rounded-bl-[5rem] lg:rounded-bl-[15rem] relative overflow-hidden">
             <header class="h-1/2">
@@ -104,12 +105,13 @@
             </header>
             <div class="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-5">
                 @foreach ($books as $book)
-                    <div class="rounded-[2rem] border border-black p-4 space-y-4 group">
+                    <div href="" class="rounded-[2rem] border border-black p-4 space-y-4 group">
                         <div>
-                            <div class="rounded-[2rem] h-80 border-2 border-black overflow-hidden">
+                            <a href="/item/{{ $book->slug }}/show"
+                                class="block rounded-[2rem] h-80 border-2 border-black overflow-hidden">
                                 <img src="{{ asset('storage/' . $book->thumbnail) }}" alt="image not available"
                                     class="object-contain w-full h-full group-hover:object-cover">
-                            </div>
+                            </a>
                             <div class="space-y-1 flex items-end justify-between">
                                 <small class="text-lg font-bold">{{ $book->name }}</small>
                                 <span class="block text-sm font-bold"><span class="text-xl">Rs
@@ -167,24 +169,37 @@
                             </div>
                         </div>
                         <div class="flex justify-between items-center gap-2">
-                            @if (in_array($book->id, $orders->toArray()))
-                                <a class="px-6 py-2 bg-blue-500 text-white rounded-lg flex items-center gap-2" href="/cart">
-                                    <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
-                                        fill="currentColor">
-                                        <polygon
-                                            points="16.172 9 10.101 2.929 11.515 1.515 20 10 19.293 10.707 11.515 18.485 10.101 17.071 16.172 11 0 11 0 9">
-                                        </polygon>
-                                    </svg>
-                                    <span>Go To Cart</span>
-                                </a>
-                            @else
-                                <form action="/cart/{{ $book->slug }}/store" method="post">
+                            @if ($book->stock != 0)
+                                @if (in_array($book->id, $orders->toArray()))
+                                    <a class="px-6 py-2 bg-blue-500 text-white rounded-lg flex items-center gap-2"
+                                        href="/cart">
+                                        <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
+                                            fill="currentColor">
+                                            <polygon
+                                                points="16.172 9 10.101 2.929 11.515 1.515 20 10 19.293 10.707 11.515 18.485 10.101 17.071 16.172 11 0 11 0 9">
+                                            </polygon>
+                                        </svg>
+                                        <span>Go To Cart</span>
+                                    </a>
+                                @else
+                                    <form action="/cart/{{ $book->slug }}/store" method="post">
+                                        @csrf
+                                        <button type="submit" class="px-6 py-2 bg-blue-500 text-white rounded-lg">Add to
+                                            Cart</button>
+                                    </form>
+                                @endif
+                                <form
+                                    action="{{ route('stripe.index', ['buyNow' => encrypt(true), 'id' => encrypt($book->slug)]) }}"
+                                    method="post">
                                     @csrf
-                                    <button type="submit" class="px-6 py-2 bg-blue-500 text-white rounded-lg">Add to
-                                        Cart</button>
+                                    <button type="submit"
+                                        class="px-6 py-2 bg-red-500 text-white rounded-lg">{{ __('Buy Now') }}</button>
                                 </form>
+                                @else
+                                <div class="w-full text-center -rotate-3">
+                                    <span class="text-3xl text-red-500 font-bold">OUT OF STOCK</span>
+                                </div>
                             @endif
-                            <a href="/item/{{ $book->slug }}/show" class="px-6 py-2 bg-slate-300 rounded-lg">View Details</a>
                         </div>
                     </div>
                 @endforeach

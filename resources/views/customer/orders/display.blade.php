@@ -53,7 +53,7 @@
                                 {{ $key + 1 }}
                             </td>
                             <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                {{ $order->id }}
+                                {{ $order->order_num }}
                             </td>
                             <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                                 {{ $order->book->name }}
@@ -66,7 +66,7 @@
                                 {{ 'Rs ' . $order->book->price }}
                             </td>
                             <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                {{ $order->days }}
+                                {{ $order->days ? $order->days : 'Buyed' }}
                             </td>
                             <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                                 {{ $order->quantity }}

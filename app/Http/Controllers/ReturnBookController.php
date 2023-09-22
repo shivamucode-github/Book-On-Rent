@@ -19,7 +19,7 @@ class ReturnBookController extends Controller
 
     public function view(ReturnBookRequest $request)
     {
-        $order = Order::where('id', $request->rentId)->where('user_id', Auth::id())->onlyTrashed()->first();
+        $order = Order::where('order_num', $request->rentId)->where('user_id', Auth::id())->onlyTrashed()->first();
 
         if ($order) {
             return view('customer.returnBook.index', [
@@ -32,7 +32,7 @@ class ReturnBookController extends Controller
 
     public function edit(Request $request)
     {
-        $order = Order::where('id', $request->id)->onlyTrashed()->first();
+        $order = Order::where('order_num', $request->id)->onlyTrashed()->first();
         $toDate = Carbon::parse(now());
         $fromDate = Carbon::parse($order->created_at);
 

@@ -1,30 +1,32 @@
 <header class="flex gap-12 items-center justify-between border-b border-gray-500 bg-white px-10">
-    <a href="{{ route('dashboard') }}" class="block w-28 h-28 outline-none">
-        <x-application-logo />
-    </a>
-    <nav>
-        <ul class="flex items-center gap-8">
-            <li><a class="hover:text-blue-500" href="/">Home</a></li>
-            <li class="relative" x-cloak x-data="{ open: false }">
-                <button x-on:click="open = ! open">Find</button>
-                <ul x-show="open"
-                    class="absolute top-10 -left-2 z-10 bg-white border border-gray-300 divide-y divide-gray-400">
-                    <li>
-                        <x-category-dropdown />
-                    </li>
-                    <li>
-                        <x-author-dropdown />
-                    </li>
-                </ul>
-            </li>
-            <li class="relative" x-data="{ open: false }">
-                <a href="/return">Return Book</a>
-            </li>
-            <li class="relative" x-data="{ open: false }">
-                <x-cart-component />
-            </li>
-        </ul>
-    </nav>
+    <div class="flex items-center gap-14">
+        <a href="{{ route('dashboard') }}" class="block w-28 h-28 outline-none">
+            <x-application-logo />
+        </a>
+        <nav>
+            <ul class="flex items-center gap-8">
+                <li><a class="hover:text-blue-500" href="/">Home</a></li>
+                <li class="relative" x-cloak x-data="{ open: false }">
+                    <button x-on:click="open = ! open">Find</button>
+                    <ul x-show="open"
+                        class="absolute top-10 -left-2 z-10 bg-white border border-gray-300 divide-y divide-gray-400">
+                        <li>
+                            <x-category-dropdown />
+                        </li>
+                        <li>
+                            <x-author-dropdown />
+                        </li>
+                    </ul>
+                </li>
+                <li class="relative" x-data="{ open: false }">
+                    <a href="/return">Return Book</a>
+                </li>
+                <li class="relative" x-data="{ open: false }">
+                    <x-cart-component />
+                </li>
+            </ul>
+        </nav>
+    </div>
     <div class="flex items-center gap-6">
         <form action="/books" method="get">
             @if (request('category'))

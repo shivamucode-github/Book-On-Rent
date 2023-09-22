@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::table('orders', function (Blueprint $table) {
             $table->timestamp('return_at')->nullable();
-            $table->float('balance')->nullable();
         });
     }
 

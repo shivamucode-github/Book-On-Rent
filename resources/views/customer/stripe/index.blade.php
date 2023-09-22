@@ -9,7 +9,7 @@
                 class="text-3xl md:text-5xl font-extrabold text-center uppercase mb-12 bg-gradient-to-r from-indigo-400 via-purple-500 to-indigo-600 bg-clip-text text-transparent transform -rotate-2">
                 Make A Payment</h1>
             <form
-                action="{{ route('stripe.store', ['payment' => encrypt($payment), 'cartCheckout' => $cartCheckout, 'returnBook' => $returnBook]) }}"
+                action="{{ route('stripe.store', ['payment' => encrypt($payment), 'cartCheckout' => $cartCheckout, 'returnBook' => $returnBook, 'buyNow' => $buyNow]) }}"
                 method="POST" id="card-form">
                 @csrf
                 <div class="mb-3">

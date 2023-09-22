@@ -22,7 +22,7 @@ class ReturnBookRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'rentId' => 'numeric|exists:orders,id',
+            'rentId' => 'numeric|exists:orders,order_num',
         ];
     }
 }

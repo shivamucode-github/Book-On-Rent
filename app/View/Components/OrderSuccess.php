@@ -3,12 +3,12 @@
 namespace App\View\Components;
 
 use App\Models\Order;
+use App\Models\Payment;
 use Closure;
 use Illuminate\Contracts\View\View;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\View\Component;
 
-class CartComponent extends Component
+class OrderSuccess extends Component
 {
     /**
      * Create a new component instance.
@@ -23,8 +23,8 @@ class CartComponent extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.cart-component', [
-            'orders' => Order::where('user_id', Auth::id())->where('days', '!=', null)->get()
+        return view('components.order-success', [
+            'payment' => Payment::orderBy('id', 'DESC')->first()
         ]);
     }
 }
