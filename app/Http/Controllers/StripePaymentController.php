@@ -38,7 +38,6 @@ class StripePaymentController extends Controller
         } catch (Exception $e) {
             return back()->with('error', 'Something went wrong. plaese try after some time.');
         }
-
         return view('customer.stripe.index', [
             'payment' => $payment,
             'returnBook' => $request->returnBook ?? null, // for checking the request is come from return book page
@@ -113,7 +112,7 @@ class StripePaymentController extends Controller
             ]);
 
             if ($status) {
-                if ($request->cartCheckout ?? null) {
+                if ($request->cartCheckout) {
                     $ids = Order::where('user_id', Auth::id())->where('days', '!=', null)->withoutTrashed()->pluck('id');
                     foreach ($ids as $id) {
                         $order = Order::find($id);
@@ -122,15 +121,15 @@ class StripePaymentController extends Controller
                     $status->orderAssigned()->attach($ids);
                     Order::destroy($ids); // soft delete the order from orders table
                 }
-                if ($request->returnBook ?? null) {
+                if ($request->returnBook) {
                     $order = Order::where('id', decrypt($request->returnBook))->onlyTrashed()->first();
                     $status->orderAssigned()->attach($order);
                     $order->update(['return_at' => now()]);  //update the order return_at column for check the book is returned
                     $order->book->update(['stock' => $order->book->stock + $order->quantity]); //updating the stock of book
 
                 }
-                if ($request->buyNow ?? null) {
-                    $order = Order::where('order_num', $request->buyNow)->first();
+                if ($request->buyNow) {
+                    $order = Order::where('id', $request->buyNow)->first();
                     $order->bookStockUpdate(); //updating the stock of book
                     $status->orderAssigned()->attach($order);
                     $order->delete();
