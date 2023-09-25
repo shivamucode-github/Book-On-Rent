@@ -78,7 +78,7 @@ class StripePaymentController extends Controller
             $stripe = new StripeClient(env('STRIPE_SECRET'));
             $value = $stripe->paymentIntents->create([
                 'confirm' => true,
-                'amount' => $payment * 100,
+                'amount' => decrypt($payment) * 100,
                 'currency' => 'inr',
                 'payment_method' => $request->payment_method,
                 'description' => $descreption,
