@@ -15,7 +15,7 @@
                 <div class="mb-3">
                     <label for="card-name"
                         class="inline-block font-bold mb-2 uppercase text-sm tracking-wider">Payment</label>
-                    <input disabled value="Rs {{ $payment }}" type="text" name="price" id="card-name"
+                    <input disabled value="Rs {{ decrypt($payment) }}" type="text" name="price" id="card-name"
                         class="border-2 border-gray-200 h-11 px-4 rounded-xl w-full">
                 </div>
                 <div class="mb-3">
