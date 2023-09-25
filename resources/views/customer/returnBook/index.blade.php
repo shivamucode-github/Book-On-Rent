@@ -92,7 +92,7 @@
                                 </td>
                                 <td class="px-4 py-2">
                                     <form
-                                        action="{{ route('stripe.index', ['returnBook' => encrypt($order->id), 'balance' => enycrpt($balance)]) }}"
+                                        action="{{ route('stripe.index', ['returnBook' => encrypt($order->id), 'balance' => encrypt($balance)]) }}"
                                         method="post">
                                         @csrf
                                         <button type="submit"
