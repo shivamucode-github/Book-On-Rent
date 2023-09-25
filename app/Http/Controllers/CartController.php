@@ -24,7 +24,7 @@ class CartController extends Controller
     {
         return view('customer.cart.show', [
             'book' => $book,
-            'orders' => Order::where('user_id', Auth::id())->pluck('book_id'),
+            'orders' => Order::where('user_id', Auth::id())->where('deleted_at', null)->where('days', '!=', null)->pluck('book_id'),
         ]);
     }
 

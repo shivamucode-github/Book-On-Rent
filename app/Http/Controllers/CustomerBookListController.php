@@ -15,7 +15,7 @@ class CustomerBookListController extends Controller
     {
         return view('customer.list', [
             'books' => Book::filter(request(['search', 'category', 'author']))->paginate(9)->withQueryString(),
-            'orders' => Order::where('user_id', Auth::id())->pluck('book_id'),
+            'orders' => Order::where('user_id', Auth::id())->where('deleted_at', null)->where('days', '!=', null)->pluck('book_id'),
             'currentCategory' => null,
             'currentAuthor' => null
         ]);
