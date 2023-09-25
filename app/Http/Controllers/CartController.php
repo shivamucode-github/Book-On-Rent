@@ -77,7 +77,7 @@ class CartController extends Controller
     public function destory(Order $order)
     {
         try {
-            $order->delete();
+            $order->forceDelete();
             return back()->with('success', 'Order deleted Succesfuly');
         } catch (Exception $e) {
             return back()->with('error', 'Something went wrong, Please try again later.');

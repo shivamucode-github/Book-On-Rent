@@ -32,7 +32,7 @@
                                 <div x-cloak x-data="{ open: false }" class="flex flex-col justify-between ml-4 flex-grow">
                                     <div class="flex flex-col gap-1">
                                         <span class="font-semibold text-sm text-gray-500">
-                                            {{ __('Order Id:') }} #{{ $order->order_num }}
+                                            {{ __('Item :') }} #{{ $key + 1 }}
                                         </span>
                                         <span class="font-bold text-sm">{{ $order->book->name }}</span>
                                         <span class="text-red-500 text-xs">{{ $order->book->category->name }}</span>
@@ -108,7 +108,7 @@
                         <ul class="py-2 space-y-1">
                             @foreach ($orders as $key => $order)
                                 <li class="flex justify-between">
-                                    <span class="font-semibold text-sm uppercase">Items {{ $key + 1 }}</span>
+                                    <span class="font-semibold text-sm uppercase">Item {{ $key + 1 }}</span>
                                     <span class="font-semibold text-sm">Rs {{ $order->price }}</span>
                                 </li>
                             @endforeach
