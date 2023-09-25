@@ -39,7 +39,7 @@ class StripePaymentController extends Controller
             return back()->with('error', 'Something went wrong. plaese try after some time.');
         }
         return view('customer.stripe.index', [
-            'payment' => $payment,
+            'payment' => encrypt($payment),
             'returnBook' => $request->returnBook ?? null, // for checking the request is come from return book page
             'cartCheckout' => $request->cartCheckout ?? null,  // for checking the request is come from Add to cart page
             'buyNow' => $buyNow ?? null //for checking the request is come from buy now

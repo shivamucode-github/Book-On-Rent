@@ -170,6 +170,7 @@
                         </div>
                         <div class="flex justify-between items-center gap-2">
                             @if ($book->stock != 0)
+                            {{-- @dd($orders->toArray) --}}
                                 @if (in_array($book->id, $orders->toArray()))
                                     <a class="px-6 py-2 bg-blue-500 text-white rounded-lg flex items-center gap-2"
                                         href="/cart">
