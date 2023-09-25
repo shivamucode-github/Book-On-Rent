@@ -29,17 +29,17 @@ class StripePaymentController extends Controller
                     'quantity' => 1,
                     'order_num' =>  GenerateUniqueNumber::uniqueOrderNumber()
                 ]);
-                $payment = $book->price;
+                $payment = encrypt($book->price);
             } elseif ($request->balance) {
                 $payment = $request->balance;
             } else {
-                $payment = Order::where('user_id', Auth::id())->where('days', '!=', null)->withoutTrashed()->pluck('price')->sum();
+                $payment = encrypt(Order::where('user_id', Auth::id())->where('days', '!=', null)->withoutTrashed()->pluck('price')->sum());
             }
         } catch (Exception $e) {
             return back()->with('error', 'Something went wrong. plaese try after some time.');
         }
         return view('customer.stripe.index', [
-            'payment' => encrypt($payment),
+            'payment' => $payment,
             'returnBook' => $request->returnBook ?? null, // for checking the request is come from return book page
             'cartCheckout' => $request->cartCheckout ?? null,  // for checking the request is come from Add to cart page
             'buyNow' => $buyNow ?? null //for checking the request is come from buy now
