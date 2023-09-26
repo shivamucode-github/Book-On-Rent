@@ -9,7 +9,8 @@ use App\Models\Payment;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Nette\Utils\Random;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 use Stripe\StripeClient;
 
 class StripePaymentController extends Controller
@@ -33,7 +34,7 @@ class StripePaymentController extends Controller
             } elseif ($request->balance) {
                 $payment = $request->balance;
             } else {
-                $payment = encrypt(Order::where('user_id', Auth::id())->where('days', '!=', null)->withoutTrashed()->pluck('price')->sum());
+                $payment = $request->cartCheckout;
             }
         } catch (Exception $e) {
             return back()->with('error', 'Something went wrong. plaese try after some time.');
@@ -46,8 +47,17 @@ class StripePaymentController extends Controller
         ]);
     }
 
-    public function store(StripePaymentRequest $request)
+    public function store(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|regex:/^[\pL\s\-]+$/u|min:3|max:255',
+            'email' => 'required|email|min:5|max:255|regex:/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix'
+        ]);
+
+        if ($validator->fails()) {
+            return redirect('/home')->withErrors($validator);
+        }
+
         // check the payment is valid or not
         try {
             $payment = decrypt($request->payment);
@@ -67,12 +77,11 @@ class StripePaymentController extends Controller
                 $descreption = "Demo Payment of Buying Book";
             }
         } catch (Exception $e) {
-            dd($e->getMessage());
             return back()->with('error', 'Something went wrong. plaese try after some time.');
         }
 
         // create stripe payment
-        $stripe = new \Stripe\StripeClient('sk_test_51NqUt4SDt1oMRJsJeb961xWsstvNsks3mUbzAonIb8NdGBvO6Vr4uLwmklalID9NeSPr1EBWxAG8NSqHWSooP2Py00xmlTT8DZ');
+        $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET'));
 
         try {
             $stripe = new StripeClient(env('STRIPE_SECRET'));
@@ -136,7 +145,6 @@ class StripePaymentController extends Controller
                 }
             }
         } catch (Exception $e) {
-            dd($e->getMessage());
             return back()->with('error', "There was a problem processing your payment");
         }
     }

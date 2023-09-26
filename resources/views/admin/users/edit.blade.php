@@ -49,9 +49,8 @@
                     <x-input-label for="role" :value="__('Role')" />
                     <select name="role" id="role"
                         class="py-2 px-3 w-full rounded-md bg-gray-100 border-gray-300">
-                        <option value="" disabled>Select One</option>
                         @foreach ($roles as $role)
-                            <option {{ $role->id == $role->id ? 'selected' : '' }} value="{{ $role->id }}">
+                            <option {{ $role->id == $user->role->id ? 'selected' : '' }} value="{{ $role->id }}">
                                 {{ $role->name }}</option>
                         @endforeach
                     </select>

@@ -25,6 +25,9 @@
                             {{ __('Transaction ID') }}
                         </th>
                         <th scope="col" class="text-sm font-semibold text-gray-900 px-6 py-4 text-center">
+                            {{ __('Description') }}
+                        </th>
+                        <th scope="col" class="text-sm font-semibold text-gray-900 px-6 py-4 text-center">
                             {{ __('Price') }}
                         </th>
                         <th scope="col" class="text-sm font-semibold text-gray-900 px-6 py-4 text-center">
@@ -41,11 +44,13 @@
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                                 {{ $order->id }}</td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                                {{ ucwords($order->user->name) }}</td>
+                                {{ $order->user->name }}</td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                                 {{ $order->transaction_id }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                                {{ $order->description }}</td>
                             <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                {{ 'Rs ' . ucwords($order->amount) }}
+                                {{ 'Rs ' . $order->amount }}
                             </td>
                             <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                                 {{ $order->created_at->format('d-M-Y') }}
@@ -91,7 +96,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="7" class="border-2 text-center py-4 font-semibold text-lg">No order Yet
+                            <td colspan="8" class="border-2 text-center py-4 font-semibold text-lg">No order Yet
                             </td>
                         </tr>
                     @endforelse ()

@@ -14,7 +14,7 @@
                     <form action="#" method="get">
                         <input
                             class="search outline-none border-2 border-gray-300 rounded-md placeholder:text-gray-400 px-4"
-                            type="search" id="" placeholder="Search Book Name and Slug" name="search">
+                            type="search" id="" placeholder="Search Book Name" name="search">
                     </form>
                     <button x-on:click="open = ! open" class="bg-blue-500 px-6 py-2 rounded-md text-white">Add
                         book</button>
@@ -26,7 +26,6 @@
                             <form method="POST" action="{{ route('createBook') }}" class="w-full"
                                 enctype="multipart/form-data">
                                 @csrf
-
                                 <!-- Name -->
                                 <div>
                                     <x-input-label for="name" :value="__('Name')" />
@@ -39,7 +38,7 @@
                                 <div class="mt-4">
                                     <x-input-label for="price" :value="__('Price')" />
                                     <x-text-input id="price" class="block mt-1 w-full" type="number" name="price"
-                                        :value="old('price')" required autocomplete="price" />
+                                        :value="old('price')" required />
                                     <x-input-error :messages="$errors->get('price')" class="mt-2" />
                                 </div>
 
@@ -156,7 +155,7 @@
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                                 {{ $book->id }}</td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                                {{ ucwords($book->name) }}</td>
+                                {{ $book->name }}</td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                                 {{ $book->slug }}</td>
                             <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
@@ -164,19 +163,20 @@
                                     class="w-40 h-52 object-center object-cover">
                             </td>
                             <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                {{ ucwords($book->price) }}
+                                {{ $book->price }}
                             </td>
                             <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                {{ ucwords($book->author->name) }}
+                                {{ $book->author->name }}
                             </td>
                             <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                {{ ucwords($book->category->name) }}
+                                {{ $book->category->name ?? null }}
                             </td>
-                            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                {{ ucwords($book->stock) }}
+                            <td
+                                class="{{ $book->stock != 0 ? 'text-gray-900 text-sm' : 'text-red-500 font-semibold text-lg' }} font-light px-6 py-4 whitespace-nowrap">
+                                {{ $book->stock != 0 ? $book->stock : 'Out Of Stock' }}
                             </td>
                             <td x-cloak x-data="{ open: false }"
-                                class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap h-44 flex items-center justify-center gap-3">
+                                class="text-sm text-gray-900 font-light h-52 px-6 py-4 whitespace-nowrap flex items-center justify-center gap-3">
                                 <a href="/admin/book/{{ $book->slug }}/show" class="text-yellow-500">
                                     <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"
                                         fill="currentColor">
@@ -224,7 +224,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="8" class="border-2 text-center py-4 font-semibold text-lg">No books Yet
+                            <td colspan="9" class="border-2 text-center py-4 font-semibold text-lg">No books Yet
                             </td>
                         </tr>
                     @endforelse ()

@@ -33,7 +33,7 @@ class CategoryController extends Controller
         ]);
     }
 
-    public function update(Category $category,CheckNameRequest $request)
+    public function update(Category $category, CheckNameRequest $request)
     {
         try {
             $category->update($request->toArray());
@@ -41,16 +41,15 @@ class CategoryController extends Controller
         } catch (Exception $e) {
             return back()->with('error', 'Something went wrong');
         }
-
     }
 
     public function destory(Category $category)
     {
         try {
             $category->delete();
-            return back()->with('success','Category Deleted ..');
+            return back()->with('success', 'Category Deleted ..');
         } catch (Exception $e) {
-            return back()->with('error', "Author belongs to various books, can't deleted");
+            return back()->with('error', "Category belongs to various books, can't deleted");
         }
     }
 }

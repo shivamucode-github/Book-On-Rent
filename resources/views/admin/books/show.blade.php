@@ -8,7 +8,7 @@
     <div class="py-2 ">
         <div class=" max-w-4xl mx-auto sm:px-6 lg:px-8">
             <div class="w-full flex items-start justify-center gap-6 bg-gray-300 px-6 py-4 rounded-lg">
-                <div class="h-full">
+                <div class="h-1/2 w-3/4">
                     <img class="w-full h-full object-cover" src="{{ asset('storage/' . $book->thumbnail) }}"
                         alt="Image not available">
                 </div>

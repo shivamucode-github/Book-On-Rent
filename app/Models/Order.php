@@ -22,17 +22,17 @@ class Order extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->belongsTo(User::class, 'user_id')->withTrashed();
     }
 
     public function book()
     {
-        return $this->belongsTo(Book::class, 'book_id');
+        return $this->belongsTo(Book::class, 'book_id')->withTrashed();
     }
 
     public function paidOrder()
     {
-        return $this->hasOne(PaidOrder::class, 'order_id');
+        return $this->hasOne(PaidOrder::class, 'order_id')->withTrashed();
     }
 
     public function bookStockUpdate()

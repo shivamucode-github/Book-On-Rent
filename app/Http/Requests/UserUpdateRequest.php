@@ -22,10 +22,10 @@ class UserUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255'],
+            'name' => ['required', 'string', 'max:255', 'regex:/^[\pL\s\-]+$/u'],
+            'email' => ['required', 'string', 'email', 'max:255', 'regex:/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix'],
             'address' => ['required', 'min:5', 'max:255'],
-            'phone' => ['required', 'digits:10', 'numeric'],
+            'phone' => ['required', 'digits:10', 'numeric', 'gt:0'],
             'role' => 'exists:roles,id'
         ];
     }

@@ -79,7 +79,7 @@
                             </div>
 
                             <span class="text-center w-1/5 font-semibold text-sm">Rs
-                                {{ $order->book->price }}.00</span>
+                                {{ $order->book->price }}</span>
                             <span class="text-center w-1/5 font-semibold text-sm">Rs {{ $order->price }}</span>
                         </div>
                     @empty
@@ -118,7 +118,7 @@
                                 <span>Total cost</span>
                                 <span>Rs {{ $payments->sum() }}</span>
                             </div>
-                            <form action="{{ route('stripe.index', ['cartCheckout' => encrypt(true)]) }}" method="post">
+                            <form action="{{ route('stripe.index', ['cartCheckout' => encrypt($payments->sum())]) }}" method="post">
                                 @csrf
                                 <button type="submit"
                                     class="block text-center bg-indigo-500 font-semibold hover:bg-indigo-600 py-3 text-sm text-white uppercase w-full">Checkout</button>

@@ -6,15 +6,14 @@ use App\Http\Requests\BookRequest;
 use App\Models\Author;
 use App\Models\Book;
 use App\Models\Category;
+use App\Models\Order;
 use Exception;
-use Illuminate\Http\Request;
-use Ramsey\Uuid\Type\Integer;
 
 class BookController extends Controller
 {
     public function show(Book $book)
     {
-        return view('admin.books.show',[
+        return view('admin.books.show', [
             'book' => $book
         ]);
     }
@@ -73,7 +72,6 @@ class BookController extends Controller
 
             return back()->with('success', 'Book Updated Succesfully..');
         } catch (Exception $e) {
-            dd($e->getMessage());
             return back()->with('error', 'Something went wrong');
         }
     }
@@ -81,7 +79,12 @@ class BookController extends Controller
     public function destory(Book $book)
     {
         try {
+            $order = Order::where('book_id', $book->id)->where('deleted_at', null)  ->first();
+            if($order){
+                return back()->with('error',"Item is added in a Cart! can't be deleted");
+            }
             $book->delete();
+
             return back()->with('success', 'Book Deleted ..');
         } catch (Exception $e) {
             return back()->with('error', 'Something went wrong ');

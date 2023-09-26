@@ -3,14 +3,14 @@
 namespace App\Models;
 
 use Cviebrock\EloquentSluggable\Sluggable;
-use Exception;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Book extends Model
 {
-    use HasFactory, Sluggable, SoftDeletes;
+    use HasFactory, Sluggable,SoftDeletes;
 
     protected $fillable = [
         'name',
@@ -25,6 +25,22 @@ class Book extends Model
     ];
 
     protected $with = ['category', 'user', 'author'];
+
+    // getter
+    protected function Name(): Attribute
+    {
+        return Attribute::make(
+            get: fn (string $value) => ucfirst($value),
+        );
+    }
+
+    protected function Price(): Attribute
+    {
+        return Attribute::make(
+            get: fn (string $value) => $value . ".00",
+        );
+    }
+
 
     // Add Slug
     public function sluggable(): array
@@ -55,16 +71,17 @@ class Book extends Model
 
     public function category()
     {
-        return $this->belongsTo(Category::class);
+        return $this->belongsTo(Category::class)->withTrashed();
     }
 
 
     public function author()
     {
-        return $this->belongsTo(Author::class);
+        return $this->belongsTo(Author::class)->withTrashed();
     }
 
-    public function order(){
+    public function order()
+    {
         return $this->hasMany(Order::class);
     }
 
@@ -113,5 +130,4 @@ class Book extends Model
             )
         );
     }
-
 }

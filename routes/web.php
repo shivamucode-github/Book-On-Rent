@@ -93,7 +93,7 @@ Route::middleware(['auth', 'auth.admin.check'])->group(function () {
     // Route::post('/admin/order/store', [OrderController::class, 'store']);
     // Route::get('/admin/order/{order:id}/edit', [OrderController::class, 'edit']);
     // Route::post('/admin/order/{order:id}/update', [OrderController::class, 'update']);
-    Route::get('/admin/order/{Payment:slug}/delete', [OrderController::class, 'destory']);
+    Route::get('/admin/order/{payment:slug}/delete', [OrderController::class, 'destory']);
     Route::get('/admin/order/{payment:slug}/show', [OrderController::class, 'display']);
 
     // Profile Route

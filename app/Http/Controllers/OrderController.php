@@ -75,10 +75,10 @@ class OrderController extends Controller
         }
     }
 
-    public function destory(Payment $order)
+    public function destory(Payment $payment)
     {
         try {
-            $order->delete();
+            $payment->delete();
             return back()->with('success', 'Order Deleted ..');
         } catch (Exception $e) {
             return back()->with('error', 'Something went wrong ');

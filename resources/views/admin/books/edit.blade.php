@@ -24,7 +24,7 @@
                     <x-input-label for="price" :value="__('Price')" />
                     <x-text-input id="price" class="block mt-1 w-full" type="number" name="price"
                         :value="$book->price, old('price')" required autocomplete="price" />
-                    <x-input-error :messages="$errors->get('email')" class="mt-2" />
+                    <x-input-error :messages="$errors->get('price')" class="mt-2" />
                 </div>
 
                 {{-- Category --}}

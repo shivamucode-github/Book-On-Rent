@@ -28,7 +28,7 @@
                                 <div class="flex flex-col items-start gap-1 text-lg font-base">
                                     <label for="name">Author Name</label>
                                     <input required type="text" id="name" name="name"
-                                        value="{{ old('name') }}"
+                                        value=""
                                         class="px-3 py-1 border-2 border-gray-300 bg-white rounded-lg w-full">
                                     @error('name')
                                         <span class="text-red-500 text-sm">
@@ -71,7 +71,7 @@
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                                 {{ $author->id }}</td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                                {{ ucwords($author->name) }}</td>
+                                {{ $author->name }}</td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                                 {{ $author->slug }}</td>
                             <td x-cloak x-data="{ open: false }"

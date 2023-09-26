@@ -22,7 +22,7 @@ class StripePaymentRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|alpha|min:3|max:255',
+            'name' => 'required|regex:/^[\pL\s\-]+$/u|min:3|max:255',
             'email' => 'required|email|min:5|max:255|regex:/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix'
         ];
     }

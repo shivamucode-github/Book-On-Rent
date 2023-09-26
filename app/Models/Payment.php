@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Payment extends Model
 {
-    use HasFactory, SoftDeletes, Sluggable;
+    use HasFactory, Sluggable, SoftDeletes;
 
     protected $fillable = [
         'user_id',
@@ -46,6 +46,6 @@ class Payment extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class,'user_id');
+        return $this->belongsTo(User::class, 'user_id');
     }
 }

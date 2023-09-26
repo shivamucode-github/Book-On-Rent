@@ -22,7 +22,7 @@ class CheckNameRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|min:3|max:255|alpha'
+            'name' => 'required|min:3|max:255|regex:/^[\pL\s\-]+$/u'
         ];
     }
 }

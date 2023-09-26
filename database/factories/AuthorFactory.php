@@ -18,7 +18,7 @@ class AuthorFactory extends Factory
     {
         return [
             'name' => fake()->name(),
-            'slug' => fake()->slug(1)
+            'slug' => fake()->firstName()
         ];
     }
 }

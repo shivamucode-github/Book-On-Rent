@@ -49,6 +49,11 @@ class UserController extends Controller
     public function update(User $user, UserUpdateRequest $request)
     {
         try {
+            $email = User::where('email', $request->email)->where('email', '!=', $user->email)->first();
+            if ($email) {
+                return back()->with('error', 'Email address already taken');
+            }
+
             $user->update([
                 'name' => $request->name,
                 'email' => $request->email,
@@ -67,7 +72,7 @@ class UserController extends Controller
     {
         try {
             $user->delete();
-            return back()->with('success','User Deleted ..');
+            return back()->with('success', 'User Deleted ..');
         } catch (Exception $e) {
             return back()->with('error', 'Something went wrong ');
         }
