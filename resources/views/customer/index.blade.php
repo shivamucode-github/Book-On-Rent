@@ -4,21 +4,6 @@
 @endpush
 @section('main')
     <main>
-        <div class="relative {{ $errors->all() ? 'block' : 'hidden' }}" x-data="{ open: true }" x-init="setTimeout(() => open = false, 3000)">
-            <div x-show="open"
-                class="absolute z-40 top-2 right-4 w-1/2 bg-red-200 border border-red-500 rounded-lg px-8 py-4">
-                <x-input-error :messages="$errors->all()" class="mt-2" />
-                <button x-on:click="open = ! open">
-                    <svg class="z-50 w-8 absolute top-3 right-3 h-8 hover:text-green-500 font-bold"
-                        xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                        viewBox="0 0 16 16">
-                        <path
-                            d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z">
-                        </path>
-                    </svg>
-                </button>
-            </div>
-        </div>
         <x-order-success />
         <section
             class="pt-56 sm:pt-28 md:pt-8 px-0 lg:px-32 bg-white lg:h-screen rounded-br-[5rem] lg:rounded-br-[15rem] rounded-bl-[5rem] lg:rounded-bl-[15rem] relative overflow-hidden">

@@ -79,10 +79,6 @@ class BookController extends Controller
     public function destory(Book $book)
     {
         try {
-            $order = Order::where('book_id', $book->id)->where('deleted_at', null)  ->first();
-            if($order){
-                return back()->with('error',"Item is added in a Cart! can't be deleted");
-            }
             $book->delete();
 
             return back()->with('success', 'Book Deleted ..');

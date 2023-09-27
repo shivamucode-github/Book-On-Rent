@@ -5,11 +5,13 @@ use App\Http\Controllers\AuthorController;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CheckOutController;
 use App\Http\Controllers\CustomerBookListController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\CustomerOrderController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\OrderStatusController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReturnBookController;
 use App\Http\Controllers\StripePaymentController;
@@ -52,6 +54,9 @@ Route::middleware(['auth', 'auth.customer.check'])->group(function () {
             Route::post('/stripe', 'index')->name('index');
             Route::post('/stripe/payment', 'store')->name('store');
         });
+
+    // checkout routes
+    Route::get('/checkout', [CheckOutController::class, 'index']);
 });
 
 
@@ -95,6 +100,8 @@ Route::middleware(['auth', 'auth.admin.check'])->group(function () {
     // Route::post('/admin/order/{order:id}/update', [OrderController::class, 'update']);
     Route::get('/admin/order/{payment:slug}/delete', [OrderController::class, 'destory']);
     Route::get('/admin/order/{payment:slug}/show', [OrderController::class, 'display']);
+
+    Route::get('/admin/orders/status', [OrderStatusController::class, 'index'])->name('orderStatus');
 
     // Profile Route
     Route::middleware('auth')->group(function () {

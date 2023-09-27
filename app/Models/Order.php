@@ -41,4 +41,27 @@ class Order extends Model
         $book->update(['stock' => $book->stock - $this->quantity]);
         return 1;
     }
+
+    public function scopeFilter($query, $str)
+    {
+        if ($str == 'null') {
+            $query->when(
+                fn ($query) =>
+                $query->whereHas(
+                    'book',
+                    fn ($query) =>
+                    $query->where('deleted_at', null)
+                )
+            );
+        } elseif ($str == 'notNull') {
+            $query->when(
+                fn ($query) =>
+                $query->whereHas(
+                    'book',
+                    fn ($query) =>
+                    $query->where('deleted_at', '!=', null)
+                )
+            );
+        }
+    }
 }

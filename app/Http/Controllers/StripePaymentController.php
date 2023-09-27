@@ -36,7 +36,12 @@ class StripePaymentController extends Controller
             } else {
                 $payment = $request->cartCheckout;
             }
+
+            if (decrypt($payment) == 0) {
+                return back()->with('error', 'Invalid Order ! Please try again');
+            }
         } catch (Exception $e) {
+            dd($e->getMessage());
             return back()->with('error', 'Something went wrong. plaese try after some time.');
         }
         return view('customer.stripe.index', [
@@ -55,7 +60,7 @@ class StripePaymentController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return redirect('/home')->withErrors($validator);
+            return redirect('/checkout')->withErrors($validator);
         }
 
         // check the payment is valid or not

@@ -8,7 +8,6 @@ use App\Models\Order;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Nette\Utils\Random;
 
 class CartController extends Controller
 {
@@ -16,7 +15,7 @@ class CartController extends Controller
     {
         return view('customer.cart.index', [
             'orders' => Order::where('user_id', Auth::id())->where('days', '!=', null)->withoutTrashed()->latest()->get(),
-            'payments' => Order::where('user_id', Auth::id())->where('days', '!=', null)->pluck('price')
+            'payments' => Order::where('user_id', Auth::id())->where('days', '!=', null)->filter('null')->pluck('price')
         ]);
     }
 
@@ -32,6 +31,11 @@ class CartController extends Controller
     {
         try {
             if ($request->quantity <= $book->stock) {
+                $order = Order::where('book_id', $book->id)->where('user_id', Auth::id())->where('days', '!=', null)->first();
+                if ($order) {
+                    $order->update(['quantity' => $order->quantity + 1]);
+                    return back()->with('success', 'Book Added to Cart');
+                }
                 $request->days ? $request->days : $request->request->add(['days' => 1]);
                 $request->quantity ? $request->quantity : $request->request->add(['quantity' => 1]);
                 $price = (2 / 100 * $book->price) * $request->days * $request->quantity;

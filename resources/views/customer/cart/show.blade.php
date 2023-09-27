@@ -77,7 +77,7 @@
                                     <label for="days" class="block text-lg text-gray-500">Days</label>
                                     <select name="days" id="days"
                                         class="outline-none bg-transparent border-gray-400">
-                                        @for ($i = 1; $i <= 30; $i++)
+                                        @for ($i = 1; $i <= 20; $i++)
                                             <option value="{{ $i }}">{{ $i }}</option>
                                         @endfor
                                     </select>

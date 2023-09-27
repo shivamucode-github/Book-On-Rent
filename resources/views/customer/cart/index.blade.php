@@ -63,24 +63,29 @@
                                     </div>
                                 </div>
                             </div>
-                            {{-- Quantity --}}
-                            <div class="flex justify-center items-center gap-3 w-1/5 quantityDiv">
-                                <span class="orderId hidden">{{ $order->order_num }}</span>
-                                <button class="decrementQty text-xl cursor-pointer px-0.5">-</button>
-                                <input disabled type="number" class="quantity w-16" value="{{ $order->quantity }}">
-                                <button class="incrementQty cursor-pointer px-0.5">+</button>
-                            </div>
+                            @if ($order->book->deleted_at == null)
+                                {{-- Quantity --}}
+                                <div class="flex justify-center items-center gap-3 w-1/5 quantityDiv">
+                                    <span class="orderId hidden">{{ $order->order_num }}</span>
+                                    <button class="decrementQty text-xl cursor-pointer px-0.5">-</button>
+                                    <input disabled type="number" class="quantity w-16" value="{{ $order->quantity }}">
+                                    <button class="incrementQty cursor-pointer px-0.5">+</button>
+                                </div>
 
-                            {{-- Days --}}
-                            <div class="flex justify-center items-center gap-3 w-1/5 text-lg">
-                                <button class="decrementDays cursor-pointer px-0.5">-</button>
-                                <input disabled type="number" class="days w-16" value="{{ $order->days }}">
-                                <button class="incrementDays cursor-pointer px-0.5">+</button>
-                            </div>
+                                {{-- Days --}}
+                                <div class="flex justify-center items-center gap-3 w-1/5 text-lg">
+                                    <button class="decrementDays cursor-pointer px-0.5">-</button>
+                                    <input disabled type="number" class="days w-16" value="{{ $order->days }}">
+                                    <button class="incrementDays cursor-pointer px-0.5">+</button>
+                                </div>
 
-                            <span class="text-center w-1/5 font-semibold text-sm">Rs
-                                {{ $order->book->price }}</span>
-                            <span class="text-center w-1/5 font-semibold text-sm">Rs {{ $order->price }}</span>
+                                <span class="text-center w-1/5 font-semibold text-sm">Rs
+                                    {{ $order->book->price }}</span>
+                                <span class="text-center w-1/5 font-semibold text-sm">Rs {{ $order->price }}</span>
+                            @else
+                                <p class="text-red-500 font-semibold">Book is no longer available! please remove this item
+                                </p>
+                            @endif
                         </div>
                     @empty
                         <div class="w-full text-center py-10">
@@ -107,10 +112,12 @@
                         </div>
                         <ul class="py-2 space-y-1">
                             @foreach ($orders as $key => $order)
-                                <li class="flex justify-between">
-                                    <span class="font-semibold text-sm uppercase">Item {{ $key + 1 }}</span>
-                                    <span class="font-semibold text-sm">Rs {{ $order->price }}</span>
-                                </li>
+                                @if ($order->book->deleted_at == null)
+                                    <li class="flex justify-between">
+                                        <span class="font-semibold text-sm uppercase">Item {{ $key + 1 }}</span>
+                                        <span class="font-semibold text-sm">Rs {{ $order->price }}</span>
+                                    </li>
+                                @endif
                             @endforeach
                         </ul>
                         <div class="border-t-2 border-gray-400 mt-4">
@@ -118,11 +125,13 @@
                                 <span>Total cost</span>
                                 <span>Rs {{ $payments->sum() }}</span>
                             </div>
-                            <form action="{{ route('stripe.index', ['cartCheckout' => encrypt($payments->sum())]) }}" method="post">
+                            <a href="/checkout" class="block text-center bg-indigo-500 font-semibold hover:bg-indigo-600 py-3 text-sm text-white uppercase w-full">CheckOut</a>
+                            {{-- <form action="{{ route('stripe.index', ['cartCheckout' => encrypt($payments->sum())]) }}"
+                                method="post">
                                 @csrf
                                 <button type="submit"
                                     class="block text-center bg-indigo-500 font-semibold hover:bg-indigo-600 py-3 text-sm text-white uppercase w-full">Checkout</button>
-                            </form>
+                            </form> --}}
                         </div>
                     </div>
                 @endif
