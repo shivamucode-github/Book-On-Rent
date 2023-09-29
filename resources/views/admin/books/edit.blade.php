@@ -22,7 +22,7 @@
                 <!-- Price -->
                 <div class="mt-4">
                     <x-input-label for="price" :value="__('Price')" />
-                    <x-text-input id="price" class="block mt-1 w-full" type="number" name="price"
+                    <x-text-input id="price" class="block mt-1 w-full [-moz-appearance:_textfield] [&::-webkit-inner-spin-button]:m-0 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:m-0 [&::-webkit-outer-spin-button]:appearance-none" type="number" name="price"
                         :value="$book->price, old('price')" required autocomplete="price" />
                     <x-input-error :messages="$errors->get('price')" class="mt-2" />
                 </div>
@@ -66,14 +66,14 @@
                 <!-- Stock -->
                 <div class="mt-4">
                     <x-input-label for="stock" :value="__('Stock')" />
-                    <x-text-input id="stock" class="block mt-1 w-full" type="number" name="stock"
+                    <x-text-input id="stock" class="block mt-1 w-full [-moz-appearance:_textfield] [&::-webkit-inner-spin-button]:m-0 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:m-0 [&::-webkit-outer-spin-button]:appearance-none" type="number" name="stock"
                         :value="$book->stock,old('stock')" required autocomplete="stock" />
                     <x-input-error :messages="$errors->get('stock')" class="mt-2" />
                 </div>
                 <!-- Rank -->
                 <div class="mt-4">
                     <x-input-label for="rank" :value="__('Rank')" />
-                    <x-text-input id="rank" class="block mt-1 w-full" type="number" name="rank"
+                    <x-text-input id="rank" class="block mt-1 w-full [-moz-appearance:_textfield] [&::-webkit-inner-spin-button]:m-0 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:m-0 [&::-webkit-outer-spin-button]:appearance-none" type="number" name="rank"
                         :value="$book->rank, old('rank')" required autocomplete="rank" />
                     <x-input-error :messages="$errors->get('rank')" class="mt-2" />
                 </div>

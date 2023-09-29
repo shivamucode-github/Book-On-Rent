@@ -8,7 +8,7 @@
     <div class="py-2 h-screen">
         <div class=" max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="border-b-2 px-4 flex items-center justify-between">
-                <h1 colspan="7" class="py-3 text-2xl">All Orders</h1>
+                <h1 colspan="7" class="py-3 text-2xl">{{ __('All Payments') }}</h1>
             </div>
         </div>
         <div class="h-full bg-white shadow-sm sm:rounded-lg p-4">

@@ -41,7 +41,7 @@
                 <!-- Days -->
                 <div>
                     <x-input-label for="days" :value="__('Rent for days')" />
-                    <x-text-input id="days" class="block mt-1 w-full" type="number" name="days"
+                    <x-text-input id="days" class="block mt-1 w-full [-moz-appearance:_textfield] [&::-webkit-inner-spin-button]:m-0 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:m-0 [&::-webkit-outer-spin-button]:appearance-none" type="number" name="days"
                         :value="$order->days ,old('days')" required autofocus autocomplete="days" />
                     <x-input-error :messages="$errors->get('days')" class="mt-2" />
                 </div>
@@ -49,7 +49,7 @@
                 <!-- Quantity -->
                 <div class="mt-4">
                     <x-input-label for="quantity" :value="__('Quantity')" />
-                    <x-text-input id="quantity" class="block mt-1 w-full" type="number" name="quantity"
+                    <x-text-input id="quantity" class="block mt-1 w-full [-moz-appearance:_textfield] [&::-webkit-inner-spin-button]:m-0 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:m-0 [&::-webkit-outer-spin-button]:appearance-none" type="number" name="quantity"
                         :value="$order->quantity, old('quantity')" required autocomplete="quantity" />
                     <x-input-error :messages="$errors->get('quantity')" class="mt-2" />
                 </div>
@@ -57,7 +57,7 @@
                 {{-- Price --}}
                 <div class="mt-4">
                     <x-input-label for="price" :value="__('Price')" />
-                    <x-text-input disabled id="price" class="block mt-1 w-full" type="number" name="price"
+                    <x-text-input disabled id="price" class="block mt-1 w-full [-moz-appearance:_textfield] [&::-webkit-inner-spin-button]:m-0 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:m-0 [&::-webkit-outer-spin-button]:appearance-none" type="number" name="price"
                         :value="$order->price, old('price')" required autocomplete="price" />
                     <x-input-error :messages="$errors->get('price')" class="mt-2" />
                 </div>

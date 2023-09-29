@@ -68,14 +68,14 @@
                                 <div class="flex justify-center items-center gap-3 w-1/5 quantityDiv">
                                     <span class="orderId hidden">{{ $order->order_num }}</span>
                                     <button class="decrementQty text-xl cursor-pointer px-0.5">-</button>
-                                    <input disabled type="number" class="quantity w-16" value="{{ $order->quantity }}">
+                                    <input disabled type="number" class="quantity w-16 [-moz-appearance:_textfield] [&::-webkit-inner-spin-button]:m-0 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:m-0 [&::-webkit-outer-spin-button]:appearance-none" value="{{ $order->quantity }}">
                                     <button class="incrementQty cursor-pointer px-0.5">+</button>
                                 </div>
 
                                 {{-- Days --}}
                                 <div class="flex justify-center items-center gap-3 w-1/5 text-lg">
                                     <button class="decrementDays cursor-pointer px-0.5">-</button>
-                                    <input disabled type="number" class="days w-16" value="{{ $order->days }}">
+                                    <input disabled type="number" class="days w-16 [-moz-appearance:_textfield] [&::-webkit-inner-spin-button]:m-0 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:m-0 [&::-webkit-outer-spin-button]:appearance-none" value="{{ $order->days }}">
                                     <button class="incrementDays cursor-pointer px-0.5">+</button>
                                 </div>
 

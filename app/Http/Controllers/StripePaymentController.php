@@ -85,8 +85,8 @@ class StripePaymentController extends Controller
             return back()->with('error', 'Payment is not done. plaese try after some time.');
         }
 
-        // create stripe payment
-        $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET'));
+        // // create stripe payment
+        // $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET'));
 
         try {
             $stripe = new StripeClient(env('STRIPE_SECRET'));
@@ -107,7 +107,7 @@ class StripePaymentController extends Controller
             // To store transaction data in our database
             $this->savePaidOrders($value, $request);
         } catch (Exception $e) {
-            return redirect('/cart')->with('error', "There was a problem processing your payment");
+            return redirect('/cart')->with('error', "There was a problem in processing your payment");
         }
         return redirect('/home')->with('orderSuccess', 'Payment done.');
     }

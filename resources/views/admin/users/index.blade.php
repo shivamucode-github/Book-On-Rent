@@ -25,7 +25,6 @@
                             <h2 class="block text-4xl font-semibold">Add user</h2>
                             <form method="POST" action="{{ route('createUser') }}" class="w-full">
                                 @csrf
-
                                 <!-- Name -->
                                 <div>
                                     <x-input-label for="name" :value="__('Name')" />
@@ -33,7 +32,6 @@
                                         :value="old('name')" required autofocus autocomplete="name" />
                                     <x-input-error :messages="$errors->get('name')" class="mt-2" />
                                 </div>
-
                                 <!-- Email Address -->
                                 <div class="mt-4">
                                     <x-input-label for="email" :value="__('Email')" />
@@ -41,17 +39,14 @@
                                         :value="old('email')" required autocomplete="username" />
                                     <x-input-error :messages="$errors->get('email')" class="mt-2" />
                                 </div>
-
-
                                 <!-- Phone -->
                                 <div class="mt-4">
                                     <x-input-label for="phone" :value="__('Phone')" />
-                                    <x-text-input id="phone" class="block mt-1 w-full" type="number" name="phone"
-                                        :value="old('phone')" required autocomplete="phone" />
+                                    <x-text-input id="phone"
+                                        class="block mt-1 w-full [-moz-appearance:_textfield] [&::-webkit-inner-spin-button]:m-0 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:m-0 [&::-webkit-outer-spin-button]:appearance-none"
+                                        type="number" name="phone" :value="old('phone')" required autocomplete="phone" />
                                     <x-input-error :messages="$errors->get('phone')" class="mt-2" />
                                 </div>
-
-
                                 <!-- Address -->
                                 <div class="mt-4">
                                     <x-input-label for="address" :value="__('Address')" />
@@ -59,7 +54,6 @@
                                         :value="old('address')" required autocomplete="username" />
                                     <x-input-error :messages="$errors->get('address')" class="mt-2" />
                                 </div>
-
                                 <!-- Password -->
                                 <div class="mt-4">
                                     <x-input-label for="password" :value="__('Password')" />
@@ -69,7 +63,6 @@
 
                                     <x-input-error :messages="$errors->get('password')" class="mt-2" />
                                 </div>
-
                                 <!-- Confirm Password -->
                                 <div class="mt-4">
                                     <x-input-label for="password_confirmation" :value="__('Confirm Password')" />

@@ -77,7 +77,7 @@
                                         @csrf
                                         <input hidden type="number" name="id" value="{{ $order->order_num }}">
                                         <button type="submit"
-                                            class="px-6 py-2 bg-red-500 text-white font-medium rounded-lg">Return Book</button>
+                                            class="[-moz-appearance:_textfield] [&::-webkit-inner-spin-button]:m-0 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:m-0 [&::-webkit-outer-spin-button]:appearance-none px-6 py-2 bg-red-500 text-white font-medium rounded-lg">Return Book</button>
                                     </form>
                                 @endif
                             </td>

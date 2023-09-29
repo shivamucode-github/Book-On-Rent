@@ -30,7 +30,7 @@
                 <!-- Phone -->
                 <div class="mt-4">
                     <x-input-label for="phone" :value="__('Phone')" />
-                    <x-text-input id="phone" class="block mt-1 w-full" type="number" name="phone"
+                    <x-text-input id="phone" class="block mt-1 w-full [-moz-appearance:_textfield] [&::-webkit-inner-spin-button]:m-0 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:m-0 [&::-webkit-outer-spin-button]:appearance-none" type="number" name="phone"
                         :value="$user->phone, old('phone')" required autocomplete="phone" />
                     <x-input-error :messages="$errors->get('phone')" class="mt-2" />
                 </div>
