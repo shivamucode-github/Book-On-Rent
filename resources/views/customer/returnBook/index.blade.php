@@ -10,7 +10,7 @@
                 action="/return" method="post">
                 @csrf
                 <div>
-                    <x-input-label for="rentId" :value="__('Enter the Rental Id')" />
+                    <x-input-label for="rentId" :value="__('Enter the Order Id')" />
                     <x-text-input id="rentId" class="block mt-1 w-full" type="text" name="rentId" :value="old('rentId')"
                         required autofocus />
                     <x-input-error :messages="$errors->get('rentId')" class="mt-2" />

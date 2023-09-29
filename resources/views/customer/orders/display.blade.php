@@ -24,7 +24,7 @@
                             {{ __('SR No.') }}
                         </th>
                         <th scope="col" class="text-sm font-semibold text-gray-900 px-6 py-4 text-center">
-                            {{ __('Rental_id') }}
+                            {{ __('Order Id') }}
                         </th>
                         <th scope="col" class="text-sm font-semibold text-gray-900 px-6 py-4 text-center">
                             {{ __('Book Name') }}
