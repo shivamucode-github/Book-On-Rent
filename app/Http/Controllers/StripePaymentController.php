@@ -82,7 +82,7 @@ class StripePaymentController extends Controller
                 $descreption = "Demo Payment of Buying Book";
             }
         } catch (Exception $e) {
-            return back()->with('error', 'Something went wrong. plaese try after some time.');
+            return back()->with('error', 'Payment is not done. plaese try after some time.');
         }
 
         // create stripe payment

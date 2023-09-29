@@ -10,7 +10,7 @@ class OrderStatusController extends Controller
     public function index()
     {
         return view('admin.returnBook.index', [
-            'orders' => Order::onlyTrashed()->paginate(15)
+            'orders' => Order::onlyTrashed()->orderBy('id', 'DESC')->paginate(15)
         ]);
     }
 }

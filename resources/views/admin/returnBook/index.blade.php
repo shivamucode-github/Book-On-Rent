@@ -22,10 +22,16 @@
                             {{ __('Order No.') }}
                         </th>
                         <th scope="col" class="text-sm font-semibold text-gray-900 px-6 py-4 text-center">
+                            {{ __('Transaction Id') }}
+                        </th>
+                        <th scope="col" class="text-sm font-semibold text-gray-900 px-6 py-4 text-center">
                             {{ __('User Name & Slug') }}
                         </th>
                         <th scope="col" class="text-sm font-semibold text-gray-900 px-6 py-4 text-center">
                             {{ __('Book Name & Slug') }}
+                        </th>
+                        <th scope="col" class="text-sm font-semibold text-gray-900 px-6 py-4 text-center">
+                            {{ __('Order Date') }}
                         </th>
                         <th scope="col" class="text-sm font-semibold text-gray-900 px-6 py-4 text-center">
                             {{ __('Status') }}
@@ -42,10 +48,16 @@
                                 {{ $order->order_num }}
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                                {{ $order->paidOrder->payment->transaction_id }}
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                                 {{ $order->user->name . ' & ' . $order->user->slug }}
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                                 {{ $order->book->name . ' & ' . $order->book->slug }}
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                                {{ $order->created_at->format('d-M-Y') }}
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                                 @if ($order->days == null && $order->return_at == null)

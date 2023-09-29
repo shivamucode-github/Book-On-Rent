@@ -23,7 +23,7 @@ class PaidOrder extends Pivot
 
     public function payment()
     {
-        return $this->belongsTo(Payment::class);
+        return $this->belongsTo(Payment::class,'transaction_id');
     }
 
     public function order()

@@ -12,7 +12,7 @@
                         <path d="M17 24L22 29L32 19" stroke="#fff" stroke-width="2" stroke-linecap="round"
                             stroke-linejoin="round"></path>
                     </svg>
-                    ORDER SUCCESSFULLY !
+                    {{ __('PAYMENT SUCCESSFULLY !') }}
                 </h2>
                 <div class="flex flex-col gap-2 justify-center items-center">
                     <p class="text-blue-500">Your Transaction ID is: {{ $payment->transaction_id }}</p>
