@@ -15,26 +15,10 @@ class StripePaymentController extends Controller
 {
     public function index(Request $request)
     {
-        // check the order quantity is not more than stock of book
         try {
-            if ($request->id && $request->buyNow) {
-                $id = decrypt($request->id);
-                $book = Book::where('slug', $id)->first();
-                $buyNow = Order::create([
-                    'user_id' => Auth::id(),
-                    'book_id' => $book->id,
-                    'price' => $book->price,
-                    'days' => null,
-                    'quantity' => 1,
-                    'order_num' =>  GenerateUniqueNumber::uniqueOrderNumber()
-                ]);
-                $payment = encrypt($book->price);
-            } elseif ($request->balance) {
-                $payment = $request->balance;
-            } else {
-                $payment = $request->cartCheckout;
-            }
-
+            // check the payment come from
+            $payment = $this->paymentCheck($request);
+            // decrypt ther payment
             if (decrypt($payment) == 0) {
                 return back()->with('error', 'Invalid Order ! Please try again');
             }
@@ -46,7 +30,6 @@ class StripePaymentController extends Controller
                 'buyNow' => $buyNow ?? null //for checking the request is come from buy now
             ]);
         } catch (Exception $e) {
-            dd($e->getMessage());
             return back()->with('error', 'Something went wrong. plaese try after some time.');
         }
     }
@@ -151,5 +134,28 @@ class StripePaymentController extends Controller
         } catch (Exception $e) {
             return back()->with('error', "There was a problem processing your payment");
         }
+    }
+
+    public function paymentCheck(Request $request)
+    {
+        if ($request->id && $request->buyNow) {
+            $id = decrypt($request->id);
+            $book = Book::where('slug', $id)->first();
+            $buyNow = Order::create([
+                'user_id' => Auth::id(),
+                'book_id' => $book->id,
+                'price' => $book->price,
+                'days' => null,
+                'quantity' => 1,
+                'order_num' =>  GenerateUniqueNumber::uniqueOrderNumber()
+            ]);
+            $payment = encrypt($book->price);
+        } elseif ($request->balance) {
+            $payment = $request->balance;
+        } else {
+            $payment = $request->cartCheckout;
+        }
+
+        return $payment;
     }
 }

@@ -31,22 +31,22 @@ class CartController extends Controller
     {
         try {
             if ($request->quantity <= $book->stock) {
-                $order = Order::where('book_id', $book->id)->where('user_id', Auth::id())->where('days', '!=', null)->first();
-                if ($order) {
-                    $order->update(['quantity' => $order->quantity + 1]);
+                // check the order is already exists or not and update the quantity and price
+                if ($this->updateExistsOrder($book)) {
                     return back()->with('success', 'Book Added to Cart');
                 }
+                // adding the days and quantity default value and calulating the price
                 $request->days ? $request->days : $request->request->add(['days' => 1]);
                 $request->quantity ? $request->quantity : $request->request->add(['quantity' => 1]);
                 $price = (2 / 100 * $book->price) * $request->days * $request->quantity;
-
+                // creating an order
                 Order::create([
-                    'user_id' => Auth::id(),
-                    'book_id' => $book->id,
-                    'price' => $price,
-                    'days' => $request->days ? $request->days : 1,
-                    'quantity' => $request->quantity ? $request->quantity : 1,
-                    'order_num' => GenerateUniqueNumber::uniqueOrderNumber()
+                    'user_id'    => Auth::id(),
+                    'book_id'    => $book->id,
+                    'price'      => $price,
+                    'days'       => $request->days,
+                    'quantity'   => $request->quantity,
+                    'order_num'  => GenerateUniqueNumber::uniqueOrderNumber()
                 ]);
                 return back()->with('success', 'Book Added to Cart');
             }
@@ -62,19 +62,18 @@ class CartController extends Controller
             if ($request->quantity <= $order->book->stock) {
                 $request->days ? $request->days : $request->request->add(['days' => $order->days]);
                 $request->quantity ? $request->quantity : $request->request->add(['quantity' => $order->quantity]);
-
                 $price = (2 / 100 * $order->book->price) * $request->days * $request->quantity;
-
+                // updating the order
                 $order->update([
                     'price' => $price,
-                    'days' => $request->days != null ? $request->days : $order->days,
-                    'quantity' => $request->quantity    != null ? $request->quantity : $order->quantity
+                    'days' => $request->days,
+                    'quantity' => $request->quantity
                 ]);
                 return response()->json(['status' => 'Done', 'statusCode' => 200]);
             }
             return back()->with('error', 'Quantity is more than stock');
         } catch (Exception $e) {
-            return back()->with('error', 'Something went wrong');
+            return back()->with('error', 'Something went wrong Please try after some time');
         }
     }
 
@@ -86,5 +85,19 @@ class CartController extends Controller
         } catch (Exception $e) {
             return back()->with('error', 'Something went wrong, Please try again later.');
         }
+    }
+
+    // check the exists of order or not and update the properties
+    public function updateExistsOrder(Book $book)
+    {
+        $order = Order::where('book_id', $book->id)->where('user_id', Auth::id())->where('days', '!=', null)->first();
+        if ($order) {
+            $order->update([
+                'quantity' => $order->quantity + 1,
+                'price' => (2 / 100 * $order->book->price) * $order->days * ($order->quantity + 1)
+            ]);
+            return true;
+        }
+        return false;
     }
 }

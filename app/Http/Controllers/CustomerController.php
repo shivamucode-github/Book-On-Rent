@@ -10,14 +10,8 @@ class CustomerController extends Controller
 {
     public function index()
     {
-        $orders = Order::where('days', null)->where('deleted_at', null)->where('return_at', null)->get();
-        if ($orders) {
-            foreach ($orders as $order) {
-                if (!$order->paidOrders) {
-                    $order->forceDelete();
-                }
-            }
-        }
+        // delete unwanted orders from database
+        DeleteUnwantedOrders::deleteRentOrders();
 
         return view('customer.index', [
             'books' => Book::filter(request(['search', 'category', 'author']))->paginate(9)->withQueryString(),

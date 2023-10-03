@@ -25,9 +25,8 @@ class ReturnBookController extends Controller
             return view('customer.returnBook.index', [
                 'order' => $order
             ]);
-        } else {
-            return back()->with('error', 'Invalid Rental ID');
         }
+        return back()->with('error', 'Invalid Rental ID');
     }
 
     public function edit(Request $request)
