@@ -48,7 +48,6 @@
                                     <x-input-label for="category" :value="__('Category')" />
                                     <select name="category" id="category"
                                         class="py-2 px-3 w-full rounded-md bg-gray-100 border-gray-300">
-                                        <option value="" selected disabled>Select One</option>
                                         @foreach ($categories as $category)
                                             <option value="{{ $category->id }}">{{ $category->name }}</option>
                                         @endforeach
@@ -61,7 +60,6 @@
                                     <x-input-label for="author" :value="__('Author')" />
                                     <select name="author" id="author"
                                         class="py-2 px-3 w-full rounded-md bg-gray-100 border-gray-300">
-                                        <option value="" selected disabled>Select One</option>
                                         @foreach ($authors as $author)
                                             <option value="{{ $author->id }}">{{ $author->name }}</option>
                                         @endforeach

@@ -28,7 +28,7 @@ class DatabaseSeeder extends Seeder
 
             User::create([
                 'name' => 'admin',
-                'email' => 'admin@admin',
+                'email' => 'admin@admin.com',
                 'password' => Hash::make('123456789'),
                 'role_id' => Role::where('name', 'admin')->first()->id,
                 'phone' => '1234567890',

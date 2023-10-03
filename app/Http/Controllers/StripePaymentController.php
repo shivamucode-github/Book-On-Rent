@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StripePaymentRequest;
 use App\Models\Book;
 use App\Models\Order;
 use App\Models\Payment;
@@ -10,7 +9,6 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\Rule;
 use Stripe\StripeClient;
 
 class StripePaymentController extends Controller
@@ -40,16 +38,17 @@ class StripePaymentController extends Controller
             if (decrypt($payment) == 0) {
                 return back()->with('error', 'Invalid Order ! Please try again');
             }
+
+            return view('customer.stripe.index', [
+                'payment' => $payment,
+                'returnBook' => $request->returnBook ?? null, // for checking the request is come from return book page
+                'cartCheckout' => $request->cartCheckout ?? null,  // for checking the request is come from Add to cart page
+                'buyNow' => $buyNow ?? null //for checking the request is come from buy now
+            ]);
         } catch (Exception $e) {
             dd($e->getMessage());
             return back()->with('error', 'Something went wrong. plaese try after some time.');
         }
-        return view('customer.stripe.index', [
-            'payment' => $payment,
-            'returnBook' => $request->returnBook ?? null, // for checking the request is come from return book page
-            'cartCheckout' => $request->cartCheckout ?? null,  // for checking the request is come from Add to cart page
-            'buyNow' => $buyNow ?? null //for checking the request is come from buy now
-        ]);
     }
 
     public function store(Request $request)
@@ -106,10 +105,10 @@ class StripePaymentController extends Controller
 
             // To store transaction data in our database
             $this->savePaidOrders($value, $request);
+            return redirect('/home')->with('orderSuccess', 'Payment done.');
         } catch (Exception $e) {
             return redirect('/cart')->with('error', "There was a problem in processing your payment");
         }
-        return redirect('/home')->with('orderSuccess', 'Payment done.');
     }
 
     // function to store data in database
